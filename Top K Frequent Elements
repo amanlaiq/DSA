@@ -1,0 +1,76 @@
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        count = {}
+        freq = [ [] for i in range(len(nums)+ 1)]
+
+        for n in nums:
+            count[n] = 1 + count.get(n,0)
+        for n, c in count.items():
+            freq[c].append(n)
+        res= []
+
+        for i in range (len(freq)-1,0,-1):
+            for n in freq[i]:
+                res.append(n)
+                if len(res) == k:
+                    return res
+
+# Problem Statement: Given an integer array nums and an integer k, you need to return the k most frequent elements in the array. The problem asks for the most common elements, not the frequencies themselves, and the order of the elements in the result list doesn't matter.
+
+# Step-by-Step Explanation
+# Count the Frequency of Each Element:
+
+# First, you need to know how often each number appears in the list nums. This is done using a dictionary called count.
+# The key is the number from nums, and the value is the count of how many times that number appears.
+# python
+# Copy code
+# count = {}
+# for n in nums:
+#     count[n] = 1 + count.get(n, 0)
+# Here, count.get(n, 0) retrieves the current count of the number n (or 0 if n is not yet in the dictionary), and then adds 1 to it.
+# Bucket Sort the Frequencies:
+
+# You use a list of lists called freq to sort elements by their frequency. The index of this list represents the frequency, and each element at a given index is a list of numbers that appear that many times in nums.
+# The list freq is initialized with empty sublists for each possible frequency from 0 to len(nums) (since the maximum frequency an element can have is len(nums)).
+# python
+# Copy code
+# freq = [[] for i in range(len(nums) + 1)]
+# for n, c in count.items():
+#     freq[c].append(n)
+# For each item in the count dictionary, you append the number n to the sublist at index c in freq, where c is the frequency of n.
+# Collect the Top K Frequent Elements:
+
+# Now, you need to collect the top k frequent elements. You do this by iterating over the freq list from the highest frequency to the lowest (from the end of the list towards the beginning).
+# For each frequency, you append the numbers in freq[i] to the result list res.
+# python
+# Copy code
+# res = []
+# for i in range(len(freq) - 1, 0, -1):
+#     for n in freq[i]:
+#         res.append(n)
+#         if len(res) == k:
+#             return res
+# You stop once you've added k elements to res and return it immediately.
+# Key Concepts and Notes
+# Frequency Counting: The count dictionary efficiently counts how many times each element appears in nums. Using count.get(n, 0) ensures that elements not previously encountered start with a count of 0.
+
+# Bucket Sort Approach: The freq list organizes elements by their frequency using a bucket sort-like strategy. This allows for quick access to the most frequent elements.
+
+# Efficiency: This approach runs in O(n) time complexity where n is the length of nums, because both the frequency counting and the bucket sort operations iterate through the list of numbers a fixed number of times. This is more efficient than sorting the elements by frequency, which would take O(n log n).
+
+# Example Walkthrough
+# Given nums = [1,1,1,2,2,3] and k = 2:
+
+# Frequency Counting:
+
+# count = {1: 3, 2: 2, 3: 1}
+# Bucket Sort by Frequency:
+
+# freq = [[], [3], [2], [1], [], []]
+# Here, freq[3] contains [1] because 1 appears 3 times, freq[2] contains [2], and freq[1] contains [3].
+# Collecting the Top K Elements:
+
+# Start from the end of freq and move towards the beginning:
+# res = [1] (from freq[3])
+# res = [1, 2] (from freq[2])
+# Since res now contains k = 2 elements, return [1, 2].

@@ -1,0 +1,44 @@
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        prevMap = {}
+
+        for i, n in enumerate(nums):
+            diff = target - n
+            if diff in prevMap:
+                return [prevMap[diff], i]
+            prevMap[n] = i
+
+# Problem Statement: You're given an array of integers called nums and an integer target. The goal is to find two distinct indices in the array such that the numbers at these indices add up to the target. Return the indices of these two numbers.
+
+# Step-by-Step Explanation
+# Initialize a dictionary (prevMap):
+
+# This dictionary will store numbers from the array as keys and their corresponding indices as values. It helps track which numbers have been seen and their positions.
+# Iterate through the list with indices:
+
+# The enumerate function is used to loop through both the index i and the value n of each element in nums.
+# Calculate the difference (diff):
+
+# For each number n, calculate the difference between the target and n. This diff represents the number needed to reach the target when added to n.
+# python
+# Copy code
+# diff = target - n
+# Check if the difference is in the dictionary:
+
+# If diff (the number needed to reach the target) is found in prevMap, it means that there is a previously encountered number that together with n adds up to target.
+# In this case, return the indices of these two numbers: the index of diff (from prevMap) and the current index i.
+# python
+# Copy code
+# if diff in prevMap:
+#     return [prevMap[diff], i]
+# Store the current number and its index:
+
+# If diff is not found in prevMap, add the current number n and its index i to prevMap. This will help to find potential pairs in future iterations.
+# python
+# Copy code
+# prevMap[n] = i
+# Notes for Quick Recall
+# Dictionary for Tracking: Use a dictionary (prevMap) to store numbers and their indices as you iterate through the list. This allows efficient lookups to find pairs that sum up to the target.
+# Calculate the Needed Value: For each element, calculate the diff which is the value needed to reach the target when added to the current element.
+# Check for Pair: Look up diff in the dictionary. If it exists, you’ve found the pair of indices.
+# Update Dictionary: If no pair is found, update the dictionary with the current element and its index.

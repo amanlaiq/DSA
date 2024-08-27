@@ -1,0 +1,45 @@
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        if len(s) != len(t):
+            return False
+
+        countS, countT = {}, {}
+
+        for i in range(len(s)):
+            countS[s[i]] = 1 + countS.get(s[i], 0)
+            countT[t[i]] = 1 + countT.get(t[i], 0)
+
+        for c in countS:
+            if countS[c] != countT.get(c, 0):
+                return False
+
+        return True
+
+
+# Problem Statement: You're given two strings, s and t. The goal is to determine if t is an anagram of s. An anagram is a word or phrase formed by rearranging the letters of another, using all the original letters exactly once. The function should return True if t is an anagram of s, and False otherwise.
+
+# Step-by-Step Explanation
+# Check if the lengths of s and t are equal:
+
+# The first condition checks if the lengths of the two strings are different. If they are, it's impossible for t to be an anagram of s, so the function immediately returns False.
+# Initialize two dictionaries (countS, countT):
+
+# These dictionaries will store the frequency of each character in the strings s and t.
+# Count the frequency of each character:
+
+# The function loops through each character in both strings simultaneously.
+# For each character in s and t, it updates the count in the respective dictionary (countS for s and countT for t).
+# countS[s[i]] = 1 + countS.get(s[i], 0) means: If the character s[i] is already in the dictionary, increment its count by 1. If not, add it to the dictionary with a count of 1.
+# Compare the frequency counts:
+
+# After counting the frequencies, the function compares the counts of each character in countS with those in countT.
+# If any character's count in s does not match the corresponding count in t, the function returns False, indicating that t is not an anagram of s.
+# Return True if all counts match:
+
+# If the loop completes and all character counts match, the function returns True, indicating that t is an anagram of s.
+# Notes for Quick Recall
+# Length Check: First, ensure the strings are of equal length; otherwise, return False.
+# Frequency Counting: Use dictionaries to count the frequency of each character in both strings.
+# Immediate Return: If any character's frequency differs between the two strings, return False.
+# Final Check: If all character frequencies match, return True.
+# This problem is a great way to practice using dictionaries for counting and comparing frequencies, which is a common approach to solving anagram-related problems.

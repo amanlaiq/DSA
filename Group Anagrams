@@ -1,0 +1,138 @@
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        res = defaultdict(list)
+
+        for s in strs:
+            count = [0] * 26
+
+            for c in s:
+                count[ord(c) - ord("a")] += 1 
+            
+            res[tuple(count)].append(s)
+
+        return res.values()
+
+
+# Problem Statement: Given an array of strings, strs, you need to group the strings that are anagrams of each other. An anagram is a word or phrase formed by rearranging the letters of another, such as "listen" and "silent". The output should be a list of lists, where each sublist contains words that are anagrams of each other.
+
+# Step-by-Step Explanation
+# Use a defaultdict to Store Groups:
+
+# A defaultdict is used to automatically initialize a list for each key. This dictionary, res, will group anagrams together. The key is a tuple representing the character frequency, and the value is a list of words that match that frequency.
+# python
+# Copy code
+# res = defaultdict(list)
+# Initialize a Frequency Count List:
+
+# For each string s in strs, create a list count of size 26 (one element for each letter of the alphabet). This list will track how many times each character appears in the string s.
+# The index in count corresponds to a specific character ('a' is at index 0, 'b' at index 1, ..., 'z' at index 25).
+# python
+# Copy code
+# count = [0] * 26
+# Populate the Frequency Count:
+
+# For each character c in the string s, calculate its position in the alphabet using ord(c) - ord('a'), and increment the corresponding index in the count list.
+# This effectively creates a unique signature for the string based on the frequency of its characters.
+# python
+# Copy code
+# for c in s:
+#     count[ord(c) - ord('a')] += 1
+# Convert the List to a Tuple and Use as a Key:
+
+# The count list, which now contains the frequency of each character in s, is converted to a tuple so it can be used as a dictionary key. Tuples are hashable and can be used as keys in a dictionary, unlike lists.
+# Append the string s to the list of anagrams corresponding to this frequency signature in res.
+# python
+# Copy code
+# res[tuple(count)].append(s)
+# Return the Grouped Anagrams:
+
+# Finally, return the values of the dictionary res, which are lists of anagrams grouped together.
+# python
+# Copy code
+# return res.values()
+# Notes for Quick Recall
+# Character Frequency Signature: Each string is represented by a character frequency signature, a list of size 26 that counts the occurrences of each character.
+# Tuple as Dictionary Key: Convert the frequency list to a tuple, which serves as a unique identifier (key) for anagrams in the dictionary.
+# Grouping with defaultdict: The defaultdict automatically handles the creation of lists for new keys, making it easy to group anagrams together.
+# Code Example
+# python
+# Copy code
+# from collections import defaultdict
+
+# class Solution:
+#     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+#         res = defaultdict(list)
+
+#         for s in strs:
+#             count = [0] * 26  # Initialize a list of 26 zeros
+
+#             for c in s:
+#                 count[ord(c) - ord('a')] += 1  # Update frequency count
+            
+#             res[tuple(count)].append(s)  # Use the tuple as a key
+
+#         return res.values()  # Return all the grouped anagrams
+# Example Walkthrough
+# Given strs = ["eat", "tea", "tan", "ate", "nat", "bat"]:
+
+# First Iteration (s = "eat"):
+
+# count = [1, 0, 0, 0, 1, 0, ...] (1 'e', 1 'a', 1 't')
+# tuple(count) becomes the key (1, 0, 0, ..., 1, 0, ...)
+# res[(1, 0, 0, ..., 1, 0, ...)] = ["eat"]
+# Second Iteration (s = "tea"):
+
+# count = [1, 0, 0, 0, 1, 0, ...] (same as above)
+# res[(1, 0, 0, ..., 1, 0, ...)] = ["eat", "tea"]
+# Subsequent Iterations:
+
+# "tan" and "nat" are grouped together under a different key.
+# "bat" forms its own group.
+# Why Use a Dictionary (defaultdict)?
+# Efficient Grouping: The dictionary allows for efficient grouping of anagrams. Each unique character frequency tuple is a key, and all strings with the same frequency are stored in a list under that key.
+# Automatic List Creation: defaultdict(list) simplifies the code by automatically creating an empty list for any new key.
+# This approach efficiently groups anagrams by character frequency, with a time complexity of O(N * K), where N is the number of strings and K is the maximum length of a string.
+
+
+
+
+
+# You said:
+# ord(c) - ord('a')
+
+# explain
+# ChatGPT said:
+# ChatGPT
+# The expression ord(c) - ord('a') is used to map a character c to its corresponding position in the alphabet, where 'a' is at position 0, 'b' is at position 1, and so on up to 'z', which is at position 25.
+
+# Detailed Explanation
+# ord(c) Function:
+
+# The ord() function in Python returns the Unicode code point (an integer) of a given character. For example:
+# ord('a') returns 97
+# ord('b') returns 98
+# ord('c') returns 99
+# ...
+# ord('z') returns 122
+# Subtracting ord('a'):
+
+# Since the lowercase letters in the English alphabet are contiguous in the Unicode table starting from 'a', you can subtract the Unicode code point of 'a' from the code point of any other lowercase letter to get its position relative to 'a'.
+# For example:
+# For c = 'a': ord('a') - ord('a') = 97 - 97 = 0
+# For c = 'b': ord('b') - ord('a') = 98 - 97 = 1
+# For c = 'c': ord('c') - ord('a') = 99 - 97 = 2
+# ...
+# For c = 'z': ord('z') - ord('a') = 122 - 97 = 25
+# Why is this Useful?
+
+# This expression maps each letter 'a' to 'z' to a unique index from 0 to 25. This is particularly useful when you need to create an array that tracks the frequency of each letter in a word.
+# In the context of the groupAnagrams function, it allows you to create a frequency count array (of size 26) where each index corresponds to a specific letter of the alphabet.
+# Example Usage
+# In the groupAnagrams function:
+
+# Suppose s = "abc". The frequency count list count starts as [0, 0, 0, ..., 0] (26 zeros).
+# As the function iterates through each character in "abc":
+# For c = 'a': ord('a') - ord('a') = 0, so count[0] is incremented by 1, making count = [1, 0, 0, ..., 0].
+# For c = 'b': ord('b') - ord('a') = 1, so count[1] is incremented by 1, making count = [1, 1, 0, ..., 0].
+# For c = 'c': ord('c') - ord('a') = 2, so count[2] is incremented by 1, making count = [1, 1, 1, ..., 0].
+# This resulting count list is a unique signature for the string "abc", representing the frequency of each letter in the word. It allows the algorithm to determine if two strings are anagrams by simply comparing their frequency lists.

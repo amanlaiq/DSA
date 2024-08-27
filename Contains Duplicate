@@ -1,0 +1,35 @@
+class Solution:
+    def containsDuplicate(self, nums: List[int]) -> bool:
+        hashset = set()
+
+        for n in nums:
+            if n in hashset:
+                return True
+            hashset.add(n)
+        return False
+    
+# Problem Statement: You're given an array of integers called nums. The goal is to determine if there are any duplicate elements in the array. If any value appears at least twice in the array, the function should return True. If all elements are unique, it should return False.
+
+# Step-by-Step Explanation
+# Initialize an empty set:
+
+# A set called hashset is created. Sets are collections that do not allow duplicate values. This property makes them useful for checking if a value has already been seen.
+# Iterate through the list:
+
+# The code loops over each element n in the list nums.
+# Check if the element is in the set:
+
+# For each element n, the code checks if it already exists in hashset.
+# If n is found in hashset, it means that this element has been seen before, indicating a duplicate. In this case, the function immediately returns True.
+# Add the element to the set:
+
+# If n is not in hashset, it gets added to the set.
+# Return False if no duplicates are found:
+
+# If the loop finishes and no duplicates have been found (the function hasn't returned True yet), the function returns False.
+# Notes for Quick Recall
+# Sets are ideal for this problem because they don't allow duplicates.
+# The function loops through each number in the list.
+# Immediate Return: The function returns True as soon as a duplicate is found, which makes it efficient.
+# If the loop completes without finding a duplicate, it returns False.
+# This problem is a common way to practice working with sets and understanding how to detect duplicates in an array efficiently.
