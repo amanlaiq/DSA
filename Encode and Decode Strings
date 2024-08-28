@@ -1,0 +1,106 @@
+class Solution:
+
+    def encode(self, strs: List[str]) -> str:
+        res = ""
+        for s in strs:
+            res += str(len(s)) + "#" + s
+        return res
+    def decode(self, s: str) -> List[str]:
+        res = []
+        i = 0
+
+        while i < len(s):
+            j = i
+            while s[j] != '#':
+                j += 1
+            length = int(s[i:j])
+            i = j + 1
+            j = i + length
+            res.append(s[i:j])
+            i = j
+        return res
+
+# Problem Explanation: Encode and Decode Strings
+# The task is to implement two functions:
+
+# encode(strs: List[str]) -> str: This function takes a list of strings and encodes them into a single string.
+# decode(s: str) -> List[str]: This function takes the encoded string and decodes it back into the original list of strings.
+# The challenge here is to find a way to concatenate the list of strings into one single string in such a way that you can later split it back into the original strings without losing any information.
+
+# Step-by-Step Explanation
+# 1. Encoding Strings:
+# The idea is to encode each string in the list by appending its length, a delimiter (in this case, "#"), and the string itself to the result.
+
+# Example Input:
+
+# strs = ["hello", "world"]
+# Example Process:
+
+# For "hello":
+# Length = 5
+# Encoded as "5#hello"
+# For "world":
+# Length = 5
+# Encoded as "5#world"
+# Concatenate all encoded strings together: "5#hello5#world"
+# Example Output:
+
+# Encoded string: "5#hello5#world"
+# python
+# Copy code
+# def encode(self, strs: List[str]) -> str:
+#     res = ""
+#     for s in strs:
+#         res += str(len(s)) + "#" + s
+#     return res
+# How It Works:
+# str(len(s)) + "#" + s creates a format where the length of the string is stored first, followed by a delimiter "#", and then the string itself.
+# By repeating this process for each string in the list and concatenating the results, you get a single encoded string.
+# 2. Decoding Strings:
+# The decoding process involves reversing the encoding process. The function reads the encoded string and extracts each original string by using the stored length.
+
+# Example Input:
+# Encoded string: "5#hello5#world"
+# Example Process:
+# Start at the beginning of the string.
+# Read until you find the "#" character; the preceding characters represent the length of the first word.
+# Use this length to determine how many characters to read next (the original string).
+# Repeat until you have processed the entire encoded string.
+# python
+# Copy code
+# def decode(self, s: str) -> List[str]:
+#     res = []
+#     i = 0
+
+#     while i < len(s):
+#         j = i
+#         while s[j] != '#':
+#             j += 1
+#         length = int(s[i:j])  # Convert the found length back to an integer
+#         i = j + 1             # Move past the `#` character
+#         j = i + length        # Set j to the end of the current string
+#         res.append(s[i:j])    # Extract the original string
+#         i = j                 # Move i to the start of the next encoded part
+#     return res
+# How It Works:
+# The outer while loop iterates over the entire encoded string s.
+# The inner while loop identifies the location of the "#" delimiter, which helps in determining the length of the original string.
+# The length is extracted, and using this length, the corresponding original string is sliced out and appended to the result list.
+# This process repeats until all encoded strings have been decoded and the entire original list of strings is reconstructed.
+# Key Concepts and Notes
+# Length and Delimiter Approach: By storing the length of each string followed by a delimiter, you can reliably encode and decode strings, even if they contain special characters or spaces.
+
+# Efficiency: This approach ensures that no matter what the contents of the strings are (including potential delimiter characters), you can always accurately decode the original list.
+
+# Edge Cases:
+
+# Strings with special characters, including "#", are handled without issues because the "#" used in encoding is outside the original strings.
+# Empty strings are managed because their length (0) is encoded as 0#, which is correctly parsed during decoding.
+# Example Walkthrough
+# Encoding:
+# Given strs = ["abc", "defg"]:
+# Encoding steps: "3#abc4#defg"
+# Decoding:
+# Given encoded string "3#abc4#defg":
+# Decoding steps: ["abc", "defg"]
+# This encoding/decoding approach is robust and works for any list of strings, regardless of their content. 

@@ -1,0 +1,76 @@
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        res = [1] * (len(nums))
+
+        prefix = 1
+        for i in range(len(nums)):
+            res[i] = prefix
+            prefix *= nums[i]
+
+        postfix = 1
+        for i in range(len(nums)-1, -1, -1):
+            res[i] *= postfix
+            postfix *= nums[i]
+        return res
+        
+# The task is to return an array res where each element at index i is the product of all elements in the input array nums except for the element at index i, without using division and in O(n) time.
+
+# Approach and Explanation
+# The problem is solved by computing the result in two passes:
+
+# First Pass: Calculate the prefix product for each element.
+# Second Pass: Calculate the postfix product and multiply it with the prefix product to get the final result.
+# Steps in the Code
+# 1. Initialize the Result Array
+# We start by creating an array res of the same length as nums, initialized to 1. This will store the final results.
+# python
+# Copy code
+# res = [1] * len(nums)
+# 2. Calculate Prefix Products
+# Prefix Product: The product of all elements before the current index.
+# Initialize a variable prefix to 1. This variable will hold the cumulative product of elements before the current index.
+# Iterate over nums from left to right. For each element at index i, set res[i] to prefix, then update prefix by multiplying it with nums[i].
+# python
+# Copy code
+# prefix = 1
+# for i in range(len(nums)):
+#     res[i] = prefix
+#     prefix *= nums[i]
+# Example: If nums = [1, 2, 3, 4]:
+# After processing the prefix products, res becomes [1, 1, 2, 6].
+# 3. Calculate Postfix Products and Update Result
+# Postfix Product: The product of all elements after the current index.
+# Initialize a variable postfix to 1. This will hold the cumulative product of elements after the current index.
+# Iterate over nums from right to left. For each element at index i, multiply res[i] with postfix, then update postfix by multiplying it with nums[i].
+# python
+# Copy code
+# postfix = 1
+# for i in range(len(nums) - 1, -1, -1):
+#     res[i] *= postfix
+#     postfix *= nums[i]
+# Example: Continuing with nums = [1, 2, 3, 4]:
+# After processing the postfix products, res becomes [24, 12, 8, 6].
+# Final Output
+# The function returns the result array res, which now contains the product of all elements except the one at each index.
+# Full Code Example
+# python
+# Copy code
+# class Solution:
+#     def productExceptSelf(self, nums: List[int]) -> List[int]:
+#         res = [1] * (len(nums))
+
+#         prefix = 1
+#         for i in range(len(nums)):
+#             res[i] = prefix
+#             prefix *= nums[i]
+
+#         postfix = 1
+#         for i in range(len(nums) - 1, -1, -1):
+#             res[i] *= postfix
+#             postfix *= nums[i]
+
+#         return res
+# Key Points:
+# Two Passes: One to calculate the prefix products and another for the postfix products.
+# Space Complexity: The algorithm uses constant extra space (excluding the output array), making it efficient.
+# No Division: The solution avoids using division, meeting the problem's constraints.

@@ -1,0 +1,95 @@
+class Solution:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        cols = collections.defaultdict(set)
+        rows = collections.defaultdict(set)
+        squares = collections.defaultdict(set)  # key = (r /3, c /3)
+
+        for r in range(9):
+            for c in range(9):
+                if board[r][c] == ".":
+                    continue
+                if (
+                    board[r][c] in rows[r]
+                    or board[r][c] in cols[c]
+                    or board[r][c] in squares[(r // 3, c // 3)]
+                ):
+                    return False
+                cols[c].add(board[r][c])
+                rows[r].add(board[r][c])
+                squares[(r // 3, c // 3)].add(board[r][c])
+
+        return True
+
+# This solution checks whether a given 9x9 Sudoku board is valid. A valid Sudoku board means that each row, column, and 3x3 subgrid (also called a square) contains the digits 1-9 without repetition. The board may also contain empty cells represented by ".".
+
+# Breakdown of the Code
+# Initialization:
+
+# cols: A dictionary where each key corresponds to a column index (0 through 8), and the value is a set of numbers that have been seen in that column.
+# rows: Similar to cols, but for rows. Each key corresponds to a row index (0 through 8).
+# squares: A dictionary where each key is a tuple (r // 3, c // 3), representing the 3x3 subgrid index. The value is a set of numbers that have been seen in that square.
+# python
+# Copy code
+# cols = collections.defaultdict(set)
+# rows = collections.defaultdict(set)
+# squares = collections.defaultdict(set)
+# Loop Through the Board:
+
+# Nested loops iterate through each cell in the 9x9 board using r for rows and c for columns.
+# python
+# Copy code
+# for r in range(9):
+#     for c in range(9):
+# Skip Empty Cells:
+
+# If the current cell is ".", the loop continues to the next cell, as there's nothing to validate.
+# python
+# Copy code
+# if board[r][c] == ".":
+#     continue
+# Check for Duplicates:
+
+# The core validation checks if the current value board[r][c] is already present in the corresponding row, column, or square.
+# If the value is found in any of these sets, the function returns False, indicating the board is invalid.
+# python
+# Copy code
+# if (
+#     board[r][c] in rows[r]
+#     or board[r][c] in cols[c]
+#     or board[r][c] in squares[(r // 3, c // 3)]
+# ):
+#     return False
+# Add Value to Sets:
+
+# If the value is not a duplicate, it is added to the corresponding row, column, and square sets.
+# python
+# Copy code
+# cols[c].add(board[r][c])
+# rows[r].add(board[r][c])
+# squares[(r // 3, c // 3)].add(board[r][c])
+# Return True:
+
+# If all cells are checked and no duplicates are found, the function returns True, indicating the board is valid.
+# python
+# Copy code
+# return True
+# Example Walkthrough
+# Consider the following partial Sudoku board:
+
+# css
+# Copy code
+# [  ["5","3",".",".","7",".",".",".","."],
+#   ["6",".",".","1","9","5",".",".","."],
+#   [".","9","8",".",".",".",".","6","."],
+#   ["8",".",".",".","6",".",".",".","3"],
+#   ["4",".",".","8",".","3",".",".","1"],
+#   ["7",".",".",".","2",".",".",".","6"],
+#   [".","6",".",".",".",".","2","8","."],
+#   [".",".",".","4","1","9",".",".","5"],
+#   [".",".",".",".","8",".",".","7","9"]
+# ]
+# The loops will iterate through each cell. For example, the first cell with a value ("5") at board[0][0] will be added to rows[0], cols[0], and squares[(0, 0)].
+# This process continues for all cells, ensuring that each row, column, and square does not have duplicate values.
+# If any duplicate is found, the function returns False.
+# Summary
+# This solution uses sets to keep track of the numbers that have already appeared in each row, column, and 3x3 subgrid. The nested loops iterate through the board, checking each number against its corresponding row, column, and subgrid. If a duplicate is found, the board is invalid. Otherwise, it's valid.
