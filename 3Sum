@@ -1,0 +1,115 @@
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        nums.sort()
+
+        for i, a in enumerate(nums):
+            if a > 0:
+                break
+            if i > 0 and a == nums[i - 1]:
+                continue
+            l, r = i + 1, len(nums) - 1
+
+            while l < r:
+                threeSum = a + nums[l] + nums[r]
+
+                if threeSum > 0:
+                    r -= 1
+                elif threeSum < 0:
+                    l += 1
+                else:
+                    res.append([a, nums[l],nums[r]])
+                    l +=1
+                    r -=1
+                    while nums[l] == nums[l - 1] and l < r:
+                        l += 1
+        return res
+    
+
+# The threeSum function finds all unique triplets in the list nums that add up to zero. It returns these triplets as a list of lists.
+
+# Step-by-Step Breakdown
+# Initialize Result List and Sort Input:
+
+# res is initialized as an empty list to store the resulting triplets.
+# The input list nums is sorted to simplify finding and skipping duplicates.
+# python
+# Copy code
+# res = []
+# nums.sort()
+# Iterate Over the Sorted List:
+
+# The loop iterates through nums with the index i and the current value a.
+# python
+# Copy code
+# for i, a in enumerate(nums):
+# Skip Positive Integers:
+
+# If the current value a is positive, break the loop. Since the list is sorted, no subsequent numbers can sum to zero.
+# python
+# Copy code
+# if a > 0:
+#     break
+# Skip Duplicates:
+
+# If the current value a is the same as the previous value, skip to the next iteration to avoid duplicate triplets.
+# python
+# Copy code
+# if i > 0 and a == nums[i - 1]:
+#     continue
+# Two-Pointer Approach:
+
+# Use two pointers l (left) and r (right), starting just after i (i + 1) and at the end of the list (len(nums) - 1), respectively.
+# python
+# Copy code
+# l, r = i + 1, len(nums) - 1
+# Find Triplets:
+
+# While l < r, calculate the sum of the triplet (threeSum = a + nums[l] + nums[r]).
+# Adjust Pointers Based on Sum:
+# If threeSum is greater than 0, decrease r to reduce the sum.
+# If threeSum is less than 0, increase l to increase the sum.
+# If threeSum equals 0, add the triplet to res, and adjust both pointers inward to continue searching for other potential triplets.
+# python
+# Copy code
+# while l < r:
+#     threeSum = a + nums[l] + nums[r]
+#     if threeSum > 0:
+#         r -= 1
+#     elif threeSum < 0:
+#         l += 1
+#     else:
+#         res.append([a, nums[l], nums[r]])
+#         l += 1
+#         r -= 1
+# Skip Duplicates After Finding a Valid Triplet:
+
+# After finding a valid triplet, increment l as long as the current and previous values at l are the same, to avoid duplicates.
+# python
+# Copy code
+# while nums[l] == nums[l - 1] and l < r:
+#     l += 1
+# Return Result:
+
+# Once all possible triplets have been evaluated, return the result list res.
+# python
+# Copy code
+# return res
+# Example
+# Given nums = [-1, 0, 1, 2, -1, -4]:
+
+# Sort nums: [-4, -1, -1, 0, 1, 2].
+# First Iteration (i = 0, a = -4):
+# Positive sum condition: threeSum > 0 is true most of the time. No valid triplets, a > 0 eventually breaks the loop.
+# Second Iteration (i = 1, a = -1):
+# For l = 2 (-1) and r = 5 (2), threeSum = 0: add [-1, -1, 2] to res.
+# Adjust pointers, skipping duplicates, leading to another valid triplet [-1, 0, 1].
+# Subsequent Iterations:
+# Skip duplicates and positive values to complete the iterations.
+# Final Result: res = [[-1, -1, 2], [-1, 0, 1]].
+
+# Key Points
+# Two-Pointer Technique: Efficiently finds pairs that sum to -a for each a in the list.
+# Sorting and Skipping Duplicates: Essential to avoid processing redundant triplets and to return only unique triplets.
+# Time Complexity: O(n^2) due to the combination of sorting and the two-pointer scan within the main loop.
+# This method effectively handles triplet identification by leveraging sorting, a two-pointer strategy, and careful management of duplicates.

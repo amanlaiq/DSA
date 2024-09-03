@@ -1,0 +1,87 @@
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        numSet = set(nums)
+        longest = 0
+
+        for n in numSet:
+            # check if its the start of a sequence
+            if (n - 1) not in numSet:
+                length = 1
+                while (n + length) in numSet:
+                    length += 1
+                longest = max(length, longest)
+        return longest
+
+
+# This solution finds the length of the longest consecutive sequence in an unsorted list of integers. The idea is to identify the start of each sequence and then count its length. By using a set for fast lookups, the algorithm is optimized for efficiency.
+
+# Step-by-Step Breakdown
+# Convert the List to a Set:
+
+# The list nums is converted into a set numSet to allow for O(1) average time complexity for lookups.
+# This step ensures that checking if a number exists in the set is quick.
+# python
+# Copy code
+# numSet = set(nums)
+# Initialize a Variable to Track the Longest Sequence:
+
+# longest is initialized to 0 to keep track of the longest consecutive sequence found.
+# python
+# Copy code
+# longest = 0
+# Iterate Over Each Number in the Set:
+
+# The loop iterates through each number n in numSet.
+# python
+# Copy code
+# for n in numSet:
+# Check if the Current Number is the Start of a Sequence:
+
+# The key idea is to determine if the current number n is the start of a sequence. This is done by checking if n-1 is not in numSet.
+# If n-1 is not present, it means that n could be the beginning of a new sequence.
+# python
+# Copy code
+# if (n - 1) not in numSet:
+# Count the Length of the Sequence:
+
+# If n is the start of a sequence, initialize a variable length to 1.
+# Then, use a while loop to check for the next numbers in the sequence (n+1, n+2, etc.) and increment length for each consecutive number found.
+# python
+# Copy code
+# length = 1
+# while (n + length) in numSet:
+#     length += 1
+# Update the Longest Sequence:
+
+# After finding the length of the current sequence, update the longest variable if the current sequence is longer than the previously recorded longest sequence.
+# python
+# Copy code
+# longest = max(length, longest)
+# Return the Result:
+
+# Finally, after all numbers have been processed, return longest, which now holds the length of the longest consecutive sequence.
+# python
+# Copy code
+# return longest
+# Example
+# Consider the input nums = [100, 4, 200, 1, 3, 2].
+
+# Convert to a set: numSet = {100, 4, 200, 1, 3, 2}.
+# Start with n = 1:
+# Since 0 is not in the set, 1 is the start of a sequence.
+# The sequence is 1, 2, 3, 4, so its length is 4.
+# Update longest = 4.
+# Continue checking:
+# 2, 3, and 4 are part of the sequence that starts with 1, so they are skipped.
+# n = 100: This is the start of a new sequence of length 1.
+# n = 200: This is another sequence of length 1.
+# The longest sequence found is 4.
+# The function returns 4, which is the length of the longest consecutive sequence.
+
+# Summary
+# The solution efficiently finds the longest consecutive sequence in an unsorted list by:
+
+# Using a set for O(1) lookups.
+# Identifying the start of sequences.
+# Counting the length of each sequence and updating the longest found.
+# This approach ensures that each number is processed in constant time, resulting in an overall time complexity of O(n).
