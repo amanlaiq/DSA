@@ -1,0 +1,73 @@
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        l, r = 0, len(height) - 1
+        res = 0
+
+        while l < r:
+            res = max(res, min(height[l], height[r]) * (r - l))
+            if height[l] < height[r]:
+                l += 1
+            elif height[r] <= height[l]:
+                r -= 1
+            
+        return res
+
+
+# The given code implements the "Container With Most Water" problem using the two-pointer approach. Here's an explanation of how the solution works:
+
+# Problem Explanation
+# You are given an array height where each element represents the height of a vertical line on a coordinate plane.
+# The width between each pair of lines is 1 unit.
+# The goal is to find two lines that, together with the x-axis, form a container that holds the maximum amount of water.
+# The container's capacity is determined by the shorter line of the two selected lines, multiplied by the distance between these lines.
+# Code Explanation
+# python
+# Copy code
+# class Solution:
+#     def maxArea(self, height: List[int]) -> int:
+#         l, r = 0, len(height) - 1  # Initialize two pointers, left and right, at the ends of the array
+#         res = 0  # Initialize the result to store the maximum area found
+
+#         while l < r:
+#             # Calculate the area between the current left and right pointers
+#             area = min(height[l], height[r]) * (r - l)
+#             # Update the maximum area if the current area is larger
+#             res = max(res, area)
+            
+#             # Move the pointer corresponding to the shorter line inward
+#             if height[l] < height[r]:
+#                 l += 1  # Move left pointer to the right
+#             elif height[r] <= height[l]:
+#                 r -= 1  # Move right pointer to the left
+            
+#         return res  # Return the maximum area found
+    
+# How the Solution Works
+# Two-Pointer Approach:
+
+# The algorithm uses two pointers: l starting at the beginning (index 0) and r starting at the end (index len(height) - 1).
+# This approach efficiently explores the potential containers by evaluating the widest possible container first.
+# Calculate the Area:
+
+# The area is determined by the formula min(height[l], height[r]) * (r - l).
+# min(height[l], height[r]) gives the height of the container (limited by the shorter line).
+# (r - l) gives the width between the two pointers.
+# The algorithm updates the maximum area found (res) with each iteration.
+# Adjust Pointers:
+
+# To potentially find a larger area, the algorithm moves the pointer pointing to the shorter line inward.
+# If height[l] < height[r], the left pointer (l) is incremented to try a taller line from the left.
+# If height[r] <= height[l], the right pointer (r) is decremented to try a taller line from the right.
+# The movement of pointers continues until l meets r, ensuring all possible containers are evaluated.
+# Why This Approach Works
+# By always moving the pointer pointing to the shorter line, the algorithm ensures that it explores the possibility of finding a taller line that can form a larger area.
+# This approach is efficient (O(n) time complexity) because each line is considered only once, and the two-pointer technique optimally narrows down the search space.
+# Example
+# For height = [1,8,6,2,5,4,8,3,7]:
+
+# Initially, l = 0 and r = 8, giving an area of min(1, 7) * 8 = 8.
+# Since height[l] < height[r], increment l to 1.
+# Recalculate the area: min(8, 7) * 7 = 49 and update res.
+# Continue adjusting pointers based on the heights and update res whenever a larger area is found.
+# Eventually, res will hold the maximum area possible, which is 49 in this case.
+# This approach ensures that the maximum possible container area is found in an efficient manner.
