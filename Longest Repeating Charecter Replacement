@@ -1,0 +1,74 @@
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+        count = {}
+        l = 0 
+        maxf = 0
+
+        for r in range(len(s)):
+            count[s[r]] = 1 + count.get(s[r], 0 )
+            maxf = max(maxf, count[s[r]])
+
+            if (r - l + 1) - maxf > k:
+                count[s[l]] -= 1
+                l += 1
+        return (r - l + 1)
+    
+# Logic Behind the Code
+# The goal of this function is to find the length of the longest substring where you can replace at most k characters to make all characters in the substring the same.
+
+# Sliding Window: The approach uses a sliding window technique with two pointers (l for the left and r for the right) to maintain a window that can be expanded or shrunk based on conditions.
+
+# Character Frequency Count: A dictionary count keeps track of how many times each character appears in the current window. This helps in deciding whether the current window can be made uniform by replacing at most k characters.
+
+# Maximum Frequency: maxf keeps track of the maximum frequency of any character within the current window. This helps to determine if the current window is valid (i.e., can be made uniform by replacing at most k characters).
+
+# Line-by-Line Explanation
+# count = {}: Initializes an empty dictionary to keep track of character counts in the current window.
+
+# l = 0: Initializes the left pointer of the window at the start of the string.
+
+# maxf = 0: Initializes maxf, which will store the highest frequency of any character in the current window.
+
+# for r in range(len(s)):: The loop iterates over the string with r acting as the right pointer of the sliding window.
+
+# count[s[r]] = 1 + count.get(s[r], 0): Updates the count of the character at the current right pointer. If the character is not in count, it gets initialized to 0 and then incremented.
+
+# maxf = max(maxf, count[s[r]]): Updates maxf to the maximum frequency of any character in the current window.
+
+# if (r - l + 1) - maxf > k:: Checks if the current window size minus the maximum frequency character count exceeds k. If true, it means we have more than k characters that would need to be replaced to make the window valid. Therefore, we need to shrink the window.
+
+# count[s[l]] -= 1: Decrements the count of the character at the left pointer, as it's about to be removed from the window.
+# l += 1: Moves the left pointer to the right, effectively shrinking the window.
+# return (r - l + 1): Returns the size of the longest valid window found during the iteration.
+
+# Why This Approach Works
+# Sliding Window: This technique allows efficient management of the window size, expanding and contracting based on the condition involving k.
+# Tracking Maximum Frequency: By keeping track of the maximum frequency of any character in the window (maxf), the solution can efficiently determine whether the current window is valid (i.e., can be made uniform with up to k replacements).
+# Example
+# Let's say s = "AABABBA" and k = 1.
+
+# Initial Window:
+
+# Right pointer at 0: s[r] = "A", window = "A", maxf = 1, no need to shrink, result length = 1.
+# Expand Window:
+
+# Right pointer at 1: s[r] = "A", window = "AA", maxf = 2, no need to shrink, result length = 2.
+# Expand Window:
+
+# Right pointer at 2: s[r] = "B", window = "AAB", maxf = 2, no need to shrink, result length = 3.
+# Expand Window:
+
+# Right pointer at 3: s[r] = "A", window = "AABA", maxf = 3, no need to shrink, result length = 4.
+# Expand Window:
+
+# Right pointer at 4: s[r] = "B", window = "AABAB", maxf = 3, (5 - 3) > 1, so shrink:
+# Left pointer at 1: window becomes "ABAB", maxf = 3, valid, result length remains 4.
+# Expand Window:
+
+# Right pointer at 5: s[r] = "B", window = "ABABB", maxf = 3, (5 - 3) > 1, so shrink:
+# Left pointer at 2: window becomes "BABB", maxf = 3, valid, result length remains 4.
+# Expand Window:
+
+# Right pointer at 6: s[r] = "A", window = "BABBA", maxf = 3, (5 - 3) > 1, so shrink:
+# Left pointer at 3: window becomes "ABBA", maxf = 3, valid, result length remains 4.
+# The final result is 4.

@@ -1,0 +1,76 @@
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        charSet = set()
+        l = 0 
+        res = 0 
+
+        for r in range(len(s)):
+            while s[r] in charSet:
+                charSet.remove(s[l])
+                l += 1
+            charSet.add(s[r])
+            res = max(res, r - l + 1)
+        return res
+
+# Problem Explanation
+# The problem asks you to find the length of the longest substring without repeating characters in a given string s.
+
+# Logic Behind the Code
+# The code uses a sliding window approach with two pointers (l and r) and a set to keep track of characters in the current substring. The sliding window dynamically adjusts to maintain the longest substring without duplicates:
+
+# Initialize Variables:
+
+# charSet: A set to store unique characters from the current substring.
+# l: Left pointer, initially set to 0, which marks the start of the substring.
+# res: Variable to store the length of the longest substring found.
+# Sliding Window:
+
+# The right pointer (r) iterates through each character in the string.
+# If the character s[r] is already in the set, it means we have a duplicate within the current substring.
+# To remove the duplicate, the left pointer (l) is incremented, and characters are removed from the set until the duplicate is gone.
+# Add s[r] to the set, then update res with the length of the current substring (r - l + 1) if it's longer than the previous maximum.
+# Line-by-Line Explanation
+# python
+# Copy code
+# def lengthOfLongestSubstring(self, s: str) -> int:
+#     charSet = set()  # A set to store unique characters in the current substring.
+#     l = 0            # Left pointer for the sliding window.
+#     res = 0          # Result variable to store the maximum length of substring found.
+# charSet = set(): Initializes a set to keep track of characters in the current substring.
+# l = 0: The left pointer starts at the beginning of the string.
+# res = 0: Initializes the result variable to store the longest length of a substring without repeating characters.
+# python
+# Copy code
+#     for r in range(len(s)):
+#         while s[r] in charSet:
+#             charSet.remove(s[l])
+#             l += 1
+# for r in range(len(s)):: The right pointer (r) iterates through each character in the string.
+# while s[r] in charSet:: If the character at s[r] is already in the set, this means the current substring has a duplicate.
+# charSet.remove(s[l]): Removes the character at the left pointer (l) from the set.
+# l += 1: Moves the left pointer one step to the right, shrinking the window from the left until the duplicate character is removed.
+# python
+# Copy code
+#         charSet.add(s[r])
+#         res = max(res, r - l + 1)
+# charSet.add(s[r]): Adds the current character at s[r] to the set, as it is now part of the current valid substring.
+# res = max(res, r - l + 1): Updates res with the maximum length found so far. The current length is r - l + 1.
+# python
+# Copy code
+#     return res
+# return res: Returns the length of the longest substring without repeating characters.
+# Example
+# Let’s take an example to see how this code works with s = "abcabcbb":
+
+# Start with l = 0, r = 0, and charSet = {}.
+# Add 'a' (at r = 0) to the set: charSet = {'a'}, res = 1.
+# Add 'b' (at r = 1) to the set: charSet = {'a', 'b'}, res = 2.
+# Add 'c' (at r = 2) to the set: charSet = {'a', 'b', 'c'}, res = 3.
+# At r = 3, 'a' is already in the set, so remove 'a' and increment l until 'a' is removed: charSet = {'b', 'c'}, l = 1.
+# Add 'a' (now valid): charSet = {'b', 'c', 'a'}, res remains 3.
+# Continue this process, adjusting l when duplicates are found, and updating res when a longer substring is discovered.
+# Notes for Future Reference
+# Sliding Window Technique: This approach efficiently handles problems involving substrings or subarrays.
+# Set for Uniqueness: The set is useful for tracking characters because it only stores unique values.
+# Dynamic Window Size: Adjust the window size by moving the left pointer when a duplicate is detected.
+# Time Complexity: This approach runs in O(n) time, where n is the length of the string, because each character is processed at most twice (once by the right pointer, once by the left).
