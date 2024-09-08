@@ -1,0 +1,64 @@
+class Solution:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        res = [0] * len(temperatures)
+        stack =[]
+
+        for i, t in enumerate(temperatures):
+            while stack and t > stack[-1][0]:
+                stackT, stackInd = stack.pop()
+                res[stackInd] = (i - stackInd)
+            stack.append([t, i])
+        return res
+    
+# Problem Description: Given a list of daily temperatures, return a list where each element is the number of days you have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead.
+
+# Approach:
+
+# Initialization:
+
+# Create a list res initialized with 0s of the same length as temperatures to store the result.
+# Use a stack to keep track of indices of temperatures.
+# Algorithm:
+
+# Iterate through each temperature with its index.
+# Use the stack to store temperatures and their indices.
+# For each temperature:
+# Check the Stack:
+# While the stack is not empty and the current temperature is greater than the temperature at the index on top of the stack:
+# Pop the stack (this gives the index of the temperature that is less than the current temperature).
+# Compute the difference between the current index and the popped index to determine the number of days until a warmer temperature.
+# Update the res list at the popped index with this difference.
+# Push the current temperature and its index onto the stack.
+# Time Complexity:
+
+# The time complexity is 
+# 𝑂
+# (
+# 𝑛
+# )
+# O(n) because each element is pushed and popped from the stack at most once.
+# Space Complexity:
+
+# The space complexity is 
+# 𝑂
+# (
+# 𝑛
+# )
+# O(n) due to the stack and the result list.
+# Example Walkthrough:
+
+# For temperatures = [73, 74, 75, 71, 69, 72, 76, 73]:
+
+# Start with res = [0, 0, 0, 0, 0, 0, 0, 0] and an empty stack.
+
+# Iterate through each temperature:
+
+# Index 0, Temperature 73: Push (73, 0) onto the stack.
+# Index 1, Temperature 74: Current temperature is greater than 73, so pop (73, 0) from stack and update res[0] to 1. Push (74, 1) onto the stack.
+# Index 2, Temperature 75: Current temperature is greater than 74, so pop (74, 1) from stack and update res[1] to 1. Push (75, 2) onto the stack.
+# Index 3, Temperature 71: Temperature 71 is not greater than 75, so just push (71, 3) onto the stack.
+# Index 4, Temperature 69: Temperature 69 is not greater than 75, so just push (69, 4) onto the stack.
+# Index 5, Temperature 72: Current temperature is greater than 69, so pop (69, 4) from stack and update res[4] to 1. Current temperature is greater than 71, so pop (71, 3) from stack and update res[3] to 2. Push (72, 5) onto the stack.
+# Index 6, Temperature 76: Current temperature is greater than 72, so pop (72, 5) from stack and update res[5] to 1. Current temperature is greater than 75, so pop (75, 2) from stack and update res[2] to 4. Push (76, 6) onto the stack.
+# Index 7, Temperature 73: Temperature 73 is not greater than 76, so just push (73, 7) onto the stack.
+# Final res would be [1, 1, 4, 2, 1, 1, 0, 0].

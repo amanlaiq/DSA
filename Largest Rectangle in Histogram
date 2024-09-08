@@ -1,0 +1,76 @@
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        maxArea = 0
+        stack = []
+
+        for i, h in enumerate(heights):
+            start = i 
+            while stack and stack[-1][1] > h:
+                index, height = stack.pop()
+                maxArea = max(maxArea, height * (i - index))
+                start = index 
+            stack.append((start,h))
+
+        for i, h in stack:
+            maxArea = max(maxArea, h * (len(heights) - i))
+        return maxArea
+    
+# Code Breakdown and Notes
+# Initialize Variables:
+
+# python
+# Copy code
+# maxArea = 0
+# stack = []
+# maxArea: Keeps track of the maximum area found so far.
+# stack: Used to store pairs of indices and heights of the bars.
+# Process Each Bar:
+
+# python
+# Copy code
+# for i, h in enumerate(heights):
+# Loop through each bar in the histogram, where i is the index and h is the height of the bar.
+# Maintain the Stack:
+
+# python
+# Copy code
+# start = i
+# while stack and stack[-1][1] > h:
+#     index, height = stack.pop()
+#     maxArea = max(maxArea, height * (i - index))
+#     start = index
+# start = i: Initialize the starting index of the rectangle as the current index i.
+# while stack and stack[-1][1] > h: Continue processing while the stack is not empty and the height of the bar on top of the stack is greater than the current height h.
+# index, height = stack.pop(): Pop the top bar from the stack. This bar is now the shortest bar in the current segment.
+# maxArea = max(maxArea, height * (i - index)): Calculate the area of the rectangle with the popped bar as the shortest and update maxArea if this area is larger.
+# start = index: Update the starting index to be the index of the popped bar, as it will be the left boundary of the current rectangle.
+# Push Current Bar to Stack:
+
+# python
+# Copy code
+# stack.append((start, h))
+# Push the current bar's index and height onto the stack. start is used to track the starting index of the rectangle that can be formed with this height.
+# Process Remaining Bars in Stack:
+
+# python
+# Copy code
+# for i, h in stack:
+#     maxArea = max(maxArea, h * (len(heights) - i))
+# Loop Through Remaining Bars in Stack: After processing all bars, there might be some bars left in the stack. These bars represent rectangles that extend from their starting index to the end of the histogram.
+# maxArea = max(maxArea, h * (len(heights) - i)): Calculate the area of these remaining rectangles and update maxArea if needed.
+# Height h: Height of the bar.
+# Width len(heights) - i: The width of the rectangle extends from the starting index i to the end of the histogram.
+# Return the Result:
+
+# python
+# Copy code
+# return maxArea
+# Return the Maximum Area: The largest rectangle area found is returned as the result.
+# Summary of Steps:
+# Initialize maxArea and stack.
+# Iterate over each bar in the histogram.
+# Maintain the stack by popping bars until the current bar can be pushed onto the stack.
+# Calculate and update the maximum area for the rectangles formed by bars popped from the stack.
+# Push the current bar's height and starting index onto the stack.
+# Process any remaining bars in the stack to account for rectangles extending to the end of the histogram.
+# Return the maximum area found.
