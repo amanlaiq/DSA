@@ -1,0 +1,19 @@
+class Solution:
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        # Step 1: Base case - If the node is None, return None (empty tree or leaf)
+        if not root:
+            return None
+        
+        # Step 2: Swap the left and right children of the current node
+        temp = root.left
+        root.left = root.right
+        root.right = temp
+        
+        # Step 3: Recursively invert the left subtree (now the original right)
+        self.invertTree(root.left)
+        
+        # Step 4: Recursively invert the right subtree (now the original left)
+        self.invertTree(root.right)
+        
+        # Step 5: Return the root after inverting its subtrees
+        return root
