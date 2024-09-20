@@ -1,0 +1,22 @@
+class Solution:
+    def lastStoneWeight(self, stones: List[int]) -> int:
+        stones = [ -s for s in stones]
+        heapq.heapify(stones)
+
+        while len(stones) > 1:
+            first = heapq.heappop(stones)
+            second = heapq.heappop(stones)
+            if second > first:
+                heapq.heappush(stones, first - second)
+
+        stones.append(0)
+        return abs(stones[0])
+
+# Suppose the original stones were [5, 7]. After converting them to negative values:
+
+# stones = [-5, -7]
+# heapq.heappop(stones) gives -7 (which represents stone 7)
+# heapq.heappop(stones) gives -5 (which represents stone 5)
+# Now, second = -5 and first = -7.
+
+# In the original problem, 7 is larger than 5, so the condition second > first (i.e., -5 > -7) is true, indicating that second (representing stone 5) is the smaller stone and first (representing stone 7) is the larger one.
