@@ -1,0 +1,48 @@
+# Definition for a binary tree node.
+class TreeNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Codec:
+
+    def serialize(self, root):
+        res = []
+
+        def dfs(node):
+            if not node:
+                res.append("N")  # Append "N" for null nodes
+                return
+            res.append(str(node.val))  # Add the current node's value to the result
+            dfs(node.left)  # Recursively serialize the left subtree
+            dfs(node.right)  # Recursively serialize the right subtree
+
+        dfs(root)
+        return ",".join(res)  # Convert the list of node        values to a single string
+    
+
+    def deserialize(self, data):
+        vals = data.split(",")  # Split the serialized string into a list of values
+        self.i = 0  # Index to track the position in the list during DFS reconstruction
+
+        def dfs():
+            if vals[self.i] == "N":  # If the current value is "N", it's a null node
+                self.i += 1
+                return None
+            node = TreeNode(int(vals[self.i]))  # Create a node with the current value
+            self.i += 1
+            node.left = dfs()  # Recursively build the left subtree
+            node.right = dfs()  # Recursively build the right subtree
+            return node
+
+        return dfs()  # Start building the tree from the first element
+
+
+        
+        
+
+# Your Codec object will be instantiated and called as such:
+# ser = Codec()
+# deser = Codec()
+# ans = deser.deserialize(ser.serialize(root))
