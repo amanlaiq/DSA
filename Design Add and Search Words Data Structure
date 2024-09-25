@@ -50,4 +50,37 @@ class WordDictionary:
 # obj.addWord(word)
 # param_2 = obj.search(word)
 
+# Overview
+# Data Structure: Trie (Prefix Tree)
+# Purpose: Efficiently store and search words. Supports wildcard '.' which can represent any letter.
+# Use Cases: Autocomplete, spell check, pattern matching.
+# Components
+# TrieNode Class
 
+# Purpose: Represents each node in the trie.
+# Attributes:
+# children: A dictionary that holds child nodes where each key is a character and the value is another TrieNode.
+# word: A boolean that indicates if the node represents the last character of a word.
+# Functionality: Initialize an empty node with no children and not marked as the end of a word.
+# WordDictionary Class
+
+# Purpose: Manages the trie and provides methods to add words and search for words.
+# Attributes:
+# root: The root node of the trie, does not hold a character but acts as the anchor for all words.
+# Methods
+
+# addWord(word: str)
+# Purpose: Adds a word to the trie.
+# Process:
+# Start from the root.
+# For each character in the word, move to the corresponding child node. If the child node for the character does not exist, create it.
+# Mark the node of the last character as the end of a word.
+# search(word: str)
+# Purpose: Searches for a word in the trie, including patterns with wildcards.
+# Process:
+# Utilize a recursive helper function (depth-first search, DFS) to navigate through the trie.
+# Start from the root and match each character:
+# If the character is '.', recursively try all possible child nodes.
+# If the character is a specific letter, move to the corresponding child node.
+# If any path confirms the entire word exists, return True.
+# Return False if no valid paths are found.
