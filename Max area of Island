@@ -24,6 +24,15 @@ class Solution:
         
         return area
 
+# Summary of Logic
+# DFS Traversal: The code performs DFS starting from each unvisited land cell (1) to explore the connected components (islands).
+# Area Calculation: Each DFS call returns the area of the island (i.e., the number of connected 1's).
+# Max Area: The result is the maximum area found during the grid traversal.
+# Key Concepts:
+# DFS: Recursively explores connected components in four directions.
+# Visit Set: Prevents revisiting cells that have already been processed.
+# Base Case: Stops recursion when out of bounds, water is encountered, or a cell has been visited.
+# Area Calculation: The DFS function counts the current cell and continues to explore neighbors to sum up the island's size.
             
 
 
