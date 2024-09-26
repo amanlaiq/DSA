@@ -32,4 +32,13 @@ class Solution:
                     islands +=1 
 
         return islands
+    
+# Summary
+# This solution uses BFS to traverse each island (connected components of land '1') and marks all the visited cells to avoid counting the same island multiple times.
+# The BFS is performed on each unvisited land cell, and for every BFS call, one island is counted. The total number of BFS calls gives the total number of islands.
+# Notes for Future Reference:
+# Grid Bounds Check: Always ensure that the current position is within the grid bounds when processing 2D matrices.
+# BFS and Queue: BFS explores neighbors level by level, making it ideal for exploring connected components in grids.
+# Visited Set: Use a set to keep track of which cells have already been visited, preventing redundant processing.
+# Direction Array: Commonly used in grid-based problems to simplify movement (down, up, right, left) logic.
 
