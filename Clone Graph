@@ -1,0 +1,147 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val = 0, neighbors = None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+"""
+
+from typing import Optional
+class Solution:
+    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
+        oldToNew = {}
+
+        def dfs(node):
+            if node in oldToNew:
+                return oldToNew[node]
+        
+            copy = Node(node.val)
+            oldToNew[node] = copy 
+
+            for nei in node.neighbors:
+                copy.neighbors.append(dfs(nei))
+            return copy
+        
+        return dfs(node) if node else None
+    
+
+
+# ### **1. Problem Understanding**
+# - The problem is about **cloning an undirected graph**. Each node in the graph contains a value and a list of neighbors. The task is to create a **deep copy** of this graph, meaning that the copied nodes should not share references with the original nodes.
+  
+# ### **2. Graph Representation**
+# - Each node is represented by a class `Node`, which has two attributes:
+#   - `val`: The value of the node.
+#   - `neighbors`: A list of neighboring nodes.
+# - If a node has neighbors, each neighbor is also a node with its own value and neighbors.
+  
+# ### **3. Depth-First Search (DFS) Recursion**
+# - The solution uses a recursive **DFS** approach to traverse and clone the graph.
+# - The key idea of DFS is to start at a node, clone it, and then recursively clone all its neighbors.
+
+# #### **4. Node Class Definition**
+# ```python
+# class Node:
+#     def __init__(self, val=0, neighbors=None):
+#         self.val = val
+#         self.neighbors = neighbors if neighbors is not None else []
+# ```
+# - **Node**: Represents a single node in the graph.
+#   - `val`: Stores the node's value (an integer).
+#   - `neighbors`: A list of neighboring nodes. If no neighbors are provided, it defaults to an empty list `[]`.
+
+# ### **5. Solution Class Definition**
+# #### **Attributes and Methods**
+# ```python
+# class Solution:
+#     def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
+# ```
+# - The `Solution` class has a method `cloneGraph` that:
+#   - Takes an input `node` of type `Optional['Node']` (i.e., a node or `None`).
+#   - Returns a deep copy of the graph starting from this node, or `None` if the input node is `None`.
+
+# ### **6. The `oldToNew` Hashmap**
+# ```python
+# oldToNew = {}
+# ```
+# - **Purpose**: The `oldToNew` dictionary maps each original node to its corresponding cloned node.
+#   - **Key**: An original node from the graph.
+#   - **Value**: A newly cloned node with the same value as the original node.
+  
+# - This hashmap ensures that:
+#   1. **No duplicates**: Each node is cloned only once.
+#   2. **Cycle handling**: It prevents infinite recursion when traversing cyclic graphs by reusing already cloned nodes.
+
+# ### **7. DFS Function Explanation**
+# #### **DFS Function Declaration**
+# ```python
+# def dfs(node):
+# ```
+# - This is a helper function used to recursively clone nodes and their neighbors.
+
+# #### **Check if Node is Already Cloned**
+# ```python
+# if node in oldToNew:
+#     return oldToNew[node]
+# ```
+# - **Logic**: If the current node (`node`) is already in `oldToNew`, it means that it has already been cloned. In this case, we simply return the cloned node from the dictionary instead of creating a new clone.
+# - **Prevents Infinite Loops**: In cyclic graphs, this condition avoids re-cloning nodes, preventing infinite recursion.
+
+# #### **Cloning the Current Node**
+# ```python
+# copy = Node(node.val)
+# oldToNew[node] = copy
+# ```
+# - **Node Cloning**: A new node `copy` is created with the same value as the current node (`node.val`).
+# - **Store in `oldToNew`**: The original node (`node`) is mapped to its cloned version (`copy`) in the `oldToNew` dictionary.
+
+# #### **Recursively Clone Neighbors**
+# ```python
+# for nei in node.neighbors:
+#     copy.neighbors.append(dfs(nei))
+# ```
+# - **Recursion**: For each neighbor (`nei`) of the current node, we call `dfs(nei)` to clone the neighbor recursively.
+# - **Appending Neighbors**: The cloned neighbor is appended to the neighbors list of the `copy` node.
+#   - After cloning all neighbors, the `copy` node will have the same structure as the original node, with all neighbors correctly linked.
+
+# #### **Return Cloned Node**
+# ```python
+# return copy
+# ```
+# - After cloning the node and all its neighbors, return the cloned node.
+
+# ### **8. Base Case Handling**
+# ```python
+# return dfs(node) if node else None
+# ```
+# - **Base Case**: If the input `node` is `None` (i.e., the graph is empty), return `None`.
+# - **Otherwise**: Call `dfs(node)` to start cloning the graph from the given node.
+
+# ---
+
+# ### **Key Concepts**
+# #### **1. DFS (Depth-First Search)**
+# - **DFS** is used to traverse the graph in a depth-first manner, visiting each node and its neighbors recursively.
+# - **Why DFS?**: DFS is simple to implement recursively and works well for graph traversal when we need to explore all paths before backtracking.
+
+# #### **2. Hashmap for Tracking Clones (`oldToNew`)**
+# - **Purpose**: The `oldToNew` dictionary stores the mapping between original nodes and their clones.
+# - **Cycle Handling**: It prevents cycles in the graph from causing infinite recursion by checking if a node has already been cloned.
+# - **Efficiency**: This dictionary allows for O(1) lookup to see if a node has already been cloned.
+
+# #### **3. Time Complexity**
+# - **O(V + E)**: The time complexity is proportional to the number of vertices (`V`, i.e., nodes) and edges (`E`, i.e., connections) in the graph. Every node and its neighbors are visited exactly once.
+
+# #### **4. Space Complexity**
+# - **O(V)**: The space complexity is dominated by the `oldToNew` dictionary, which stores a clone for each node in the graph. Additionally, the recursion depth can go up to O(V) in the worst case (when the graph is a straight path).
+
+# ---
+
+# ### **Summary for Future Reference**
+# 1. **DFS Traversal**: The graph is cloned using a recursive DFS approach, where each node and its neighbors are recursively cloned.
+# 2. **Cycle Handling**: The `oldToNew` dictionary ensures that nodes are cloned only once, preventing infinite loops in cyclic graphs.
+# 3. **Cloning Neighbors**: The cloned node’s neighbors are populated by recursively cloning each of the original node’s neighbors.
+# 4. **Edge Cases**: The base case handles empty input graphs (`None`), returning `None` in such cases.
+# 5. **Time and Space Complexity**: Both are efficient and scale linearly with the size of the graph.
+
+# This structure allows for efficient cloning of complex graphs, including those with cycles or multiple connections.
