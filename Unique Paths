@@ -1,0 +1,82 @@
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        row = [1] * n
+
+        for i in range(m - 1):
+            newR = [1] *(n)
+            for j in range(n - 2, -1, -1):
+                newR[j] = newR[j + 1] + row[j]
+            row = newR
+        return row[0]
+
+
+
+
+# for j in range(n - 2, -1, -1):
+#     newRow[j] = newRow[j + 1] + row[j]
+# This inner loop goes from right to left, starting from the second last column (because the last column is always 1).
+# The idea is that the number of paths to the destination from any position (i, j) is the sum of:
+# The number of paths from the position to the right (which is newRow[j + 1]).
+# The number of paths from the position directly below (which is row[j]).   
+
+
+# Notes for Future Reference: Unique Paths Problem
+# Problem Overview:
+# You're given a grid of size m x n.
+# You need to find the number of unique paths from the top-left corner (0, 0) to the bottom-right corner (m-1, n-1).
+# You can only move either right or down at any point.
+# Approach: Dynamic Programming
+# Initial Setup:
+
+# Create a list row of length n, where all values are initialized to 1.
+# python
+
+# row = [1] * n
+# This represents the number of paths to the destination from the last row, where each cell has exactly one path (by going right to the end of the row).
+# Iterating Over Rows:
+
+# Use a loop to process rows from the bottom to the top, excluding the last row since it's already initialized.
+# python
+
+# for i in range(m - 1):
+# Processing Each Cell:
+
+# For each row, create a new list newRow initialized to 1, since the left-most cell always has only one way to reach the destination.
+# python
+
+# newRow = [1] * n
+# Process each column from right to left (ignoring the last column because it is always 1). For each cell (i, j), the number of unique paths is the sum of:
+# The number of paths from the right (newRow[j + 1]).
+# The number of paths from below (row[j]).
+# python
+
+# for j in range(n - 2, -1, -1):
+#     newRow[j] = newRow[j + 1] + row[j]
+# Update the Current Row:
+
+# After calculating the new row values, update row to be the newRow for the next iteration.
+# python
+
+# row = newRow
+# Return the Result:
+
+# The result will be in row[0] because it contains the number of paths from the top-left corner after processing all rows.
+# python
+# Copy code
+# return row[0]
+# Example:
+# For a grid 3 x 4:
+
+# Start with the last row [1, 1, 1, 1].
+# Calculate the second-last row by iterating from right to left:
+# Update the row based on the sum of paths from the right and below.
+# Example for a 4-column grid:
+# sql
+# Row 3 (initial): [1, 1, 1, 1]
+# Row 2 (calculated): [4, 3, 2, 1]
+# Row 1 (calculated): [10, 6, 3, 1]
+# Final result is 10, the number of unique paths from the top-left to the bottom-right.
+# Key Points:
+# Dynamic Programming: The problem is solved by building up solutions for smaller subproblems (each row) using previously calculated results.
+# Efficiency: The algorithm uses O(n) space and runs in O(m * n) time.
+# Base Case: The last row is initialized to [1, 1, 1, ...] because there's only one way to move from any cell in the last row to the destination (moving right).
