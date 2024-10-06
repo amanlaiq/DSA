@@ -1,0 +1,103 @@
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        dp = [[ 0 for j in range(len(text2) + 1)] for i in range(len(text1) + 1)]
+
+        for i in range(len(text1) - 1, -1 , -1):
+            for j in range(len(text2) - 1, -1, -1):
+                if text1[i] == text2[j]:
+                    dp[i][j] = 1 + dp[i + 1][j + 1]
+                else:
+                    dp[i][j] = max(dp[i][j + 1], dp[i + 1][j])
+                    
+        return dp[0][0] 
+    
+
+# You are given two strings text1 and text2. You need to find the length of their longest common subsequence (LCS). A subsequence is a sequence that can be derived from another string by deleting some or no elements without changing the order of the remaining elements.
+
+# Approach: Dynamic Programming
+# python
+# Copy code
+# class Solution:
+#     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+# This defines the Solution class and the function longestCommonSubsequence. It takes two strings text1 and text2 as input and returns the length of their longest common subsequence.
+
+# Step 1: Initialize a DP Table
+# python
+# Copy code
+# dp = [[0 for j in range(len(text2) + 1)] for i in range(len(text1) + 1)]
+# This line initializes a 2D DP table (dp) where dp[i][j] represents the length of the LCS for substrings text1[i:] (from i to the end) and text2[j:] (from j to the end).
+# The size of the dp table is (len(text1) + 1) x (len(text2) + 1). The +1 is there to account for the base case where one of the strings is empty. Each entry is initialized to 0.
+# Step 2: Iterate Over Text1 and Text2 from the End
+# python
+# Copy code
+# for i in range(len(text1) - 1, -1, -1):
+#     for j in range(len(text2) - 1, -1, -1):
+# This is a nested loop where you iterate backwards through both text1 and text2.
+# The outer loop runs from the last character of text1 (index len(text1) - 1) to the first character (index 0).
+# The inner loop runs from the last character of text2 (index len(text2) - 1) to the first character (index 0).
+# The goal is to compute the value of dp[i][j] for each i and j, representing the LCS of the substrings starting from i in text1 and from j in text2.
+
+# Step 3: Compare Characters and Update the DP Table
+# python
+# Copy code
+# if text1[i] == text2[j]:
+#     dp[i][j] = 1 + dp[i + 1][j + 1]
+# If text1[i] == text2[j], it means the characters at position i in text1 and position j in text2 match. In that case, you can extend the LCS by 1.
+# So, you take the value from dp[i + 1][j + 1] (the LCS of the suffixes starting at i+1 and j+1) and add 1 to it. This represents including the current matching character in the LCS.
+# Example:
+# If text1 = "abc" and text2 = "abc", when i = 1 and j = 1 (both pointing to 'b'), you can extend the LCS by 1 because text1[1] == text2[1].
+
+# Step 4: Handle Mismatched Characters
+# python
+# Copy code
+# else:
+#     dp[i][j] = max(dp[i][j + 1], dp[i + 1][j])
+# If text1[i] != text2[j], then you can't extend the LCS using the current characters.
+# Instead, you take the maximum value from two possible choices:
+# dp[i][j + 1]: the LCS length if you skip the character text2[j].
+# dp[i + 1][j]: the LCS length if you skip the character text1[i].
+# This step ensures that you only continue with the maximum LCS that can be found by skipping one character from either text1 or text2.
+
+# Step 5: Return the Final Result
+# python
+# Copy code
+# return dp[0][0]
+# Once all iterations are complete, the value dp[0][0] will contain the length of the longest common subsequence for the entire strings text1 and text2.
+# This is because dp[0][0] represents the LCS length for the substrings starting at the beginning of both strings (i.e., text1[0:] and text2[0:]).
+# Example Walkthrough:
+# For text1 = "abcde" and text2 = "ace", the DP table would be filled as follows:
+
+# Compare each character of text1 with each character of text2 from the last character to the first.
+# At each point, check if the characters match. If they do, add 1 to the result of the next characters. If they don't, take the maximum of skipping either character.
+# The final result in dp[0][0] will give the length of the LCS, which is 3 in this case ("ace").
+# Key Points:
+# Dynamic Programming Table (2D DP Array): dp[i][j] stores the length of the LCS for the substrings text1[i:] and text2[j:].
+# Iterating Backwards: By starting from the last characters of the strings, you can build the solution from smaller subproblems to larger ones.
+# Matching Characters: If characters match, extend the LCS by 1. If they don't, take the maximum LCS by skipping one character from either string.
+# Time Complexity: O(m * n) where m is the length of text1 and n is the length of text2, because you are filling a 2D table of size m x n.
+# Space Complexity: O(m * n) for storing the DP table.
+# This approach ensures that you efficiently compute the longest common subsequence for two strings.
+
+
+# 3/3
+
+# You said:
+# 1 + dp\[i + 1\]\[j + 1\]
+
+# why is +1 added here
+# ChatGPT said:
+# ChatGPT
+# The +1 is added here:
+
+# python
+# Copy code
+# dp[i][j] = 1 + dp[i + 1][j + 1]
+# because when the characters text1[i] and text2[j] match, it means you have found a common character in both strings at those positions.
+
+# This shared character can be part of the longest common subsequence (LCS). So, if the subsequences starting from i+1 in text1 and j+1 in text2 have a certain length (stored in dp[i + 1][j + 1]), the LCS starting from i and j will be 1 longer because of the current matching characters (text1[i] == text2[j]).
+
+# Example:
+# Let’s say text1 = "abcde" and text2 = "ace", and currently, i = 1 and j = 1 (both pointing to 'c'):
+
+# If dp[i + 1][j + 1] (which refers to dp[2][2]) is the length of the LCS for the suffixes starting after these positions (text1[2:] = "de" and text2[2:] = "e"), and since the characters 'c' at i and j match, the LCS including 'c' will be 1 longer than the LCS for the remaining substrings.
+# Thus, the +1 accounts for the matching character being added to the subsequence.
