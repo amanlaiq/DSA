@@ -1,0 +1,78 @@
+class Solution:
+    def maxCoins(self, nums: List[int]) -> int:
+        nums = [1] + nums + [1]
+        dp = {}
+
+        def dfs(l, r):
+            if l > r:
+                return 0 
+            if (l, r) in dp:
+                return dp[(l, r)]
+                
+            dp[(l, r)] = 0
+            for i in range(l, r + 1):
+                coins = nums[l - 1] * nums[i] * nums[r + 1]
+                coins += dfs(l, i - 1) + dfs(i + 1, r)
+                dp[(l, r)] = max(dp[(l, r)], coins)
+            return dp[(l, r)]
+        return dfs(1, len(nums) - 2)
+    
+
+# Code Overview
+# The maxCoins function uses dynamic programming to find the maximum coins you can collect by bursting balloons in an optimal order. Here’s a simplified breakdown of the key components:
+
+# Input Preparation: The input list nums of balloon values is modified to add virtual balloons with a value of 1 at both ends. This allows the computation of the coins obtained from the balloons adjacent to the ones being burst.
+
+# python
+# Copy code
+# nums = [1] + nums + [1]
+# Memoization Structure: A dictionary dp is used to store previously computed results to avoid redundant calculations. The keys in this dictionary are tuples (l, r), representing the left and right boundaries of the balloon subarray currently being considered.
+
+# Recursive Function: The dfs function calculates the maximum coins obtainable by bursting balloons between indices l and r.
+
+# Key Points in the Recursive Function
+# In the recursive function dfs(l, r), the following happens:
+
+# Base Case: If l > r, it returns 0, meaning no balloons are left to burst in that range.
+
+# Memoization Check: If the result for (l, r) is already computed, it returns that stored result.
+
+# Initialization: The result for dp[(l, r)] is initialized to 0.
+
+# Loop Through Balloons: The critical part of the function is the loop:
+
+# python
+# Copy code
+# for i in range(l, r + 1):
+# Here’s what happens in this loop:
+
+# Choosing a Balloon: For each index i between l and r, you consider that balloon as the last balloon to burst in that range.
+
+# Calculating Coins: The coins obtained from bursting balloon i is calculated as:
+
+# python
+# Copy code
+# coins = nums[l - 1] * nums[i] * nums[r + 1]
+# This calculation derives coins based on the balloons adjacent to balloon i, which are nums[l-1] and nums[r+1].
+
+# Bursting Other Balloons: After calculating the coins from bursting balloon i, the remaining balloons in the ranges [l, i - 1] and [i + 1, r] need to be dealt with:
+
+# Bursting Balloons Before i: The call dfs(l, i - 1) computes the maximum coins obtainable from bursting the balloons that are left in the range before balloon i.
+# Bursting Balloons After i: The call dfs(i + 1, r) computes the maximum coins obtainable from bursting the balloons that are left in the range after balloon i.
+# Putting It All Together
+# The function accumulates the coins obtained from:
+
+# Bursting the balloon at index i (calculated above).
+# Plus the maximum coins from bursting the balloons before i.
+# Plus the maximum coins from bursting the balloons after i.
+# The maximum result for each (l, r) pair is updated in the dp cache.
+
+# Example Walkthrough
+# Imagine you have the modified nums = [1, 3, 1, 5, 8, 1]:
+
+# Let’s say l = 1 and r = 4 (looking at 3, 1, 5, 8):
+# The loop will consider each balloon from index 1 to 4:
+# If i = 1 (bursting 3), it calculates coins using 1 * 3 * 1, then recurses into ranges [1, 0] (which gives 0) and [2, 4].
+# If i = 2 (bursting 1), similar calculations occur, leading to evaluating [1, 1] and [3, 4].
+# If i = 3, bursting 5, the function evaluates [1, 2] and [4, 4].
+# If i = 4, it evaluates before and after.
