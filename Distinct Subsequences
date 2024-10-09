@@ -1,0 +1,35 @@
+class Solution:
+    def numDistinct(self, s: str, t: str) -> int:
+        cache = {}
+
+        def dfs(i, j):
+            if j == len(t):
+                return 1 
+            if i == len(s):
+                return 0 
+            if (i, j) in cache:
+                return cache[(i, j)] 
+
+            if s[i] == t[j]:
+                cache[(i, j)] = dfs(i + 1, j + 1) + dfs(i + 1, j)
+            else:
+                cache[(i, j)] = dfs(i + 1, j)
+            return cache[(i, j)]
+
+        return dfs(0, 0)
+
+# The main function call starts the recursion with both i and j at 0, i.e., starting at the beginning of both strings s and t.
+
+# Example Walkthrough:
+# Consider s = "rabbbit" and t = "rabbit".
+
+# The function starts with dfs(0, 0), comparing s[0] ('r') with t[0] ('r'). Since they match, it recursively explores both options:
+# dfs(1, 1) (using the match).
+# dfs(1, 0) (skipping the current character of s).
+# This process continues recursively, exploring different paths, and counting all valid subsequences of t that exist in s.
+# Key Points:
+# Memoization is crucial to avoid redundant computations, as the recursive function explores many possible subsequences.
+# The recursion explores all possible ways of forming t from s, either by matching or skipping characters.
+# Subsequence Matching: If the characters match, we explore both using the match and skipping it. If they don’t match, we skip the character in s.
+# Time Complexity:
+# The time complexity is approximately O(m * n) where m is the length of s and n is the length of t. This is because each (i, j) state is computed once and stored in the cache.
