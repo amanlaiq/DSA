@@ -15,3 +15,14 @@ class Solution:
                     cache[i][j] = 1 + min(cache[i + 1][j], cache[i][j + 1], cache[i + 1][j + 1])
         return cache[0][0]
     
+
+# Example Walkthrough:
+# Let's consider word1 = "horse" and word2 = "ros".
+
+# Initialize the cache matrix.
+# Set base cases: filling the last row and column.
+# Iterate through word1 and word2 in reverse and update the DP table based on matching or non-matching characters.
+# The final answer (minimum number of edits) will be stored in cache[0][0].
+# Time and Space Complexity:
+# Time Complexity: O(m * n), where m is the length of word1 and n is the length of word2. We iterate over all characters in both strings.
+# Space Complexity: O(m * n) for the DP table.
