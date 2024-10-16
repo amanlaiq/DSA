@@ -23,3 +23,12 @@ class Solution:
             for c in range(COLS):
                 dfs(r, c, -1)
         return max(dp.values())
+    
+# Key Concepts:
+# DFS with Memoization: The dfs function explores all possible increasing paths starting from each cell. To avoid recalculating the same paths multiple times, the results are stored in the dp dictionary.
+# Four Directions: The algorithm explores all four directions (up, down, left, right) from every cell to check for increasing values, which allows it to traverse all potential paths.
+# Recursive Backtracking: The recursion ensures that once all possible paths from a given cell have been explored, the result is cached, and the function moves to the next starting point.
+# Time Complexity:
+# The time complexity is O(m * n), where m is the number of rows and n is the number of columns. This is because each cell is visited once and the result is stored in the dp dictionary to avoid re-computation.
+# Space Complexity:
+# The space complexity is O(m * n) due to the dp dictionary, which stores the longest path for each cell in the matrix.
