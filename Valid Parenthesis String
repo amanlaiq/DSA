@@ -1,0 +1,90 @@
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        leftMin, leftMax = 0, 0 
+
+        for c in s:
+            if c == "(":
+                leftMin, leftMax = leftMin + 1, leftMax + 1
+            elif c == ")":
+                leftMin, leftMax = leftMin - 1, leftMax - 1
+            else:
+                leftMin, leftMax = leftMin - 1, leftMax + 1
+            if leftMax < 0:
+                return False
+            if leftMin < 0:
+                leftMin = 0
+        return leftMin == 0
+
+
+
+
+
+
+
+
+
+# This code solves the problem of checking whether a string containing (, ), and * is valid as per the conditions of a balanced parenthesis string. The asterisk * can be treated as either (, ), or an empty string.
+
+# Line-by-line explanation:
+# Initialize two variables leftMin and leftMax:
+
+# python
+# Copy code
+# leftMin, leftMax = 0, 0
+# leftMin represents the minimum possible number of open parentheses (.
+# leftMax represents the maximum possible number of open parentheses (.
+# These two variables track the range of valid open parentheses at any point in the string.
+# Iterate through each character in the string s:
+
+# python
+# Copy code
+# for c in s:
+# This loop processes every character one by one.
+# If the character is '(':
+
+# python
+# Copy code
+# if c == "(":
+#     leftMin, leftMax = leftMin + 1, leftMax + 1
+# Both leftMin and leftMax are incremented because an open parenthesis increases the need for a corresponding closing parenthesis.
+# If the character is ')':
+
+# python
+# Copy code
+# elif c == ")":
+#     leftMin, leftMax = leftMin - 1, leftMax - 1
+# Both leftMin and leftMax are decremented because a closing parenthesis reduces the need for open parentheses.
+# If the character is '*':
+
+# python
+# Copy code
+# else:
+#     leftMin, leftMax = leftMin - 1, leftMax + 1
+# * can represent (, ), or an empty string:
+# leftMin - 1 assumes that * is a closing parenthesis ) (or an empty string if needed).
+# leftMax + 1 assumes that * is an opening parenthesis (.
+# Check for invalid scenarios where the maximum possible open parentheses is negative:
+
+# python
+# Copy code
+# if leftMax < 0:
+#     return False
+# If leftMax < 0, there are more closing parentheses than can be balanced with any combination of ( or *, making the string invalid.
+# Ensure that the minimum number of open parentheses (leftMin) doesn't drop below zero:
+
+# python
+# Copy code
+# if leftMin < 0:
+#     leftMin = 0
+# We reset leftMin to 0 if it goes negative because it would mean there are more closing parentheses than open ones at this point in the string. Since * can act as an empty string, we are allowed to bring it back to 0.
+# At the end, check if the minimum number of open parentheses is exactly zero:
+
+# python
+# Copy code
+# return leftMin == 0
+# If leftMin == 0, the string is valid because it means there are no unbalanced open parentheses left.
+# Key Points:
+# leftMin keeps track of the minimum possible open parentheses, assuming some * might act as ).
+# leftMax tracks the maximum possible open parentheses, assuming some * might act as (.
+# If at any point leftMax is negative, the string becomes invalid because there are too many ) to balance.
+# Finally, for the string to be valid, leftMin must be 0 after processing all characters, meaning no unbalanced open parentheses remain.
