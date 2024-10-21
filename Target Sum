@@ -1,0 +1,83 @@
+class Solution:
+    def findTargetSumWays(self, nums: List[int], target: int) -> int:
+        dp = {}
+
+        def backtrack(i, total):
+            if i == len(nums):
+                return 1 if total == target else 0 
+            if (i, total) in dp:
+                return dp[(i, total)]
+            
+            dp[(i, total)] = (backtrack(i + 1, total + nums[i]) +
+                              backtrack(i + 1, total - nums[i]))
+            return dp[(i, total)]
+        return backtrack(0, 0)
+    
+
+
+# Problem Overview:
+# Given an array of integers nums and a target integer target, we need to determine the number of ways to add and subtract elements in nums such that the sum equals target.
+# Key Concepts:
+# Backtracking Approach:
+
+# Backtracking is used to explore all possible combinations of adding and subtracting numbers in the array.
+# For each number in nums, there are two options:
+# Add the number to the current total.
+# Subtract the number from the current total.
+# The recursive process will try both of these options and continue until all numbers are processed.
+# Memoization:
+
+# A memoization technique is used to store the results of subproblems. This prevents recalculating the same state multiple times.
+# The dp dictionary stores intermediate results, where the key is (i, total), representing the index i of the current element and the total sum at that point.
+# Code Explanation (Line by Line):
+# python
+# Copy code
+# class Solution:
+#     def findTargetSumWays(self, nums: List[int], target: int) -> int:
+#         dp = {}  # Memoization dictionary to store subproblem results.
+
+#         def backtrack(i, total):
+#             # Base case: If we have processed all numbers, check if the total equals the target.
+#             if i == len(nums):
+#                 return 1 if total == target else 0  # Return 1 if target reached, otherwise 0.
+
+#             # If the current state (i, total) is already computed, return the stored result.
+#             if (i, total) in dp:
+#                 return dp[(i, total)]
+
+#             # Recursive call 1: Include the current number with a '+' sign.
+#             # Recursive call 2: Include the current number with a '-' sign.
+#             dp[(i, total)] = (backtrack(i + 1, total + nums[i]) +  # Try adding nums[i].
+#                               backtrack(i + 1, total - nums[i]))   # Try subtracting nums[i].
+            
+#             return dp[(i, total)]  # Return the stored result for this subproblem.
+        
+#         return backtrack(0, 0)  # Start the recursion with index 0 and total 0.
+# Explanation of the Approach:
+# Recursive Function backtrack(i, total):
+
+# i represents the current index in the nums array.
+# total represents the sum of the numbers so far (taking into account both additions and subtractions).
+# Base Case:
+
+# If i equals the length of nums, it means all numbers have been processed.
+# If the total matches the target, return 1 to signify a valid solution. Otherwise, return 0.
+# Memoization (dp dictionary):
+
+# To avoid redundant calculations, the function checks if the current state (i, total) has already been computed. If so, it returns the stored result.
+# Recursive Calls:
+
+# Two recursive calls are made for each element in nums:
+# One assumes the current number is added to the total.
+# The other assumes the current number is subtracted from the total.
+# Final Return Value:
+
+# The function returns the total number of valid ways to reach the target sum by recursively exploring both the addition and subtraction of each number in nums.
+# Time Complexity:
+# O(N * S), where N is the length of nums and S is the sum of elements in nums. Memoization ensures that each state (i, total) is only computed once, reducing the exponential nature of the backtracking.
+# Space Complexity:
+# O(N * S) due to the recursion stack and the memoization table (dp).
+# Key Takeaways:
+# Backtracking + Memoization is a powerful technique for problems involving exploration of multiple paths or choices, like adding and subtracting elements to meet a target.
+# Using memoization (or dynamic programming) ensures that you don't recompute states, making the solution efficient.
+# Base cases and recursive structure are important when designing backtracking algorithms to explore different decision paths effectively.
