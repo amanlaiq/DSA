@@ -8,4 +8,3 @@ class Solution:
         for i in range(len(temp)):
             nums[i] = temp[i]
         return len(temp)
-                
