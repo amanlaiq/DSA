@@ -1,20 +1,18 @@
-from collections import defaultdict
-
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
         if len(s) != len(t):
-            return False  # If lengths differ, they can't be anagrams
+            return False
 
-        char_count = defaultdict(int)
-
-        # Count occurrences of characters in s
-        for char in s:
-            char_count[char] += 1
+        countS, countT = {}, {}
         
-        # Subtract occurrences using t
-        for char in t:
-            char_count[char] -= 1
-            if char_count[char] < 0:
-                return False  # If count goes negative, extra character found in t
+        for i in range(len(s)):
+            countS[s[i]] = 1 + countS.get(s[i], 0)
+            countT[t[i]] = 1 + countT.get(t[i], 0)
 
-        return True  # If all counts are zero, it's an anagram
+        for c in countS:
+            if countS[c] != countT.get(c, 0):
+                return False
+        
+        return True
+        
+
