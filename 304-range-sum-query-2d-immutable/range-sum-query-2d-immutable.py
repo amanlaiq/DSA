@@ -1,31 +1,26 @@
 class NumMatrix:
 
     def __init__(self, matrix: List[List[int]]):
-        if not matrix or not matrix[0]:
-            self.prefix_sum = []
-            return
+        ROWS, COLS = len(matrix), len(matrix[0])
+        self.sumMat = [[0] * (COLS + 1) for r in range(ROWS + 1)]
 
-        rows, cols = len(matrix), len(matrix[0])
-        self.prefix_sum = [[0] * (cols + 1) for _ in range(rows + 1)]
+        for r in range(ROWS):
+            prefix = 0
+            for c in range(COLS):
+                prefix += matrix[r][c]
+                above = self.sumMat[r][c + 1]
+                self.sumMat[r + 1][c + 1] = prefix + above
 
-        # Build the prefix sum matrix
-        for r in range(1, rows + 1):
-            for c in range(1, cols + 1):
-                self.prefix_sum[r][c] = (
-                    matrix[r - 1][c - 1]
-                    + self.prefix_sum[r - 1][c]    # Sum from the top
-                    + self.prefix_sum[r][c - 1]    # Sum from the left
-                    - self.prefix_sum[r - 1][c - 1]  # Remove double-counted area
-                )
+    def sumRegion(self, r1: int, c1: int, r2: int, c2: int) -> int:
+        r1, c1, r2, c2 = r1 + 1, c1 + 1, r2 + 1, c2 + 1
+        bottomright = self.sumMat[r2][c2]
+        above = self.sumMat[r1 - 1][c2]
+        left = self.sumMat[r2][c1 - 1]
+        topleft = self.sumMat[r1 -1][c1 - 1]
 
-    def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
-        # Adjust the indices because prefix_sum is 1-indexed
-        row1, col1, row2, col2 = row1 + 1, col1 + 1, row2 + 1, col2 + 1
+        return bottomright - above - left + topleft
 
-        # Compute the region sum using the prefix sum matrix
-        return (
-            self.prefix_sum[row2][col2]
-            - self.prefix_sum[row1 - 1][col2]
-            - self.prefix_sum[row2][col1 - 1]
-            + self.prefix_sum[row1 - 1][col1 - 1]
-        )
+
+# Your NumMatrix object will be instantiated and called as such:
+# obj = NumMatrix(matrix)
+# param_1 = obj.sumRegion(row1,col1,row2,col2)
