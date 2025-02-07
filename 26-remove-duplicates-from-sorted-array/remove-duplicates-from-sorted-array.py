@@ -6,5 +6,4 @@ class Solution:
             if nums[r] != nums[r - 1]:
                 nums[l] = nums[r]
                 l += 1
-
         return l
