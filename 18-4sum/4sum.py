@@ -11,8 +11,8 @@ class Solution:
                     quad.append(nums[i])
                     ksum(k - 1, i + 1, target - nums[i])
                     quad.pop()
-                return
-
+                return 
+            
             l, r = start, len(nums) - 1
             while l < r:
                 if nums[l] + nums[r] < target:
@@ -22,14 +22,8 @@ class Solution:
                 else:
                     res.append(quad + [nums[l], nums[r]])
                     l += 1
+                    r -= 1
                     while l < r and nums[l] == nums[l - 1]:
-                        l +=1
+                        l += 1
         ksum(4, 0, target)
         return res
-
-
-
-                
-
-
-
