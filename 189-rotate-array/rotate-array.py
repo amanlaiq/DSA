@@ -6,6 +6,8 @@ class Solution:
         n = len(nums)
         k = k % n
 
+        l, r = 0, len(nums) - 1
+
         def reverse(l, r):
             while l < r:
                 nums[l], nums[r] = nums[r], nums[l]
