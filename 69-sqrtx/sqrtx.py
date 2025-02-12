@@ -4,13 +4,14 @@ class Solution:
         res = 0
 
         while l <= r:
-            m =  l + ( (r - l) // 2)
+            m = l + (( r - l ) // 2)
 
-            if m ** 2 > x:
-                r = m - 1
-            elif m ** 2 < x:
+            if m ** 2 < x:
                 l = m + 1
                 res = m
+            elif m ** 2 > x:
+                r = m - 1
             else:
                 return m
         return res
+                
