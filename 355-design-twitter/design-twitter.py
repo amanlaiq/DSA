@@ -19,8 +19,9 @@ class Twitter:
             if followeeid in self.tweetmap:
                 index = len(self.tweetmap[followeeid]) - 1
                 count, tweetid = self.tweetmap[followeeid][index]
-                minheap.append([count, tweetid, followeeid, index - 1])
-        heapq.heapify(minheap)
+                heapq.heappush(minheap, [count, tweetid, followeeid, index - 1])
+        #         minheap.append([count, tweetid, followeeid, index - 1])
+        # heapq.heapify(minheap)
 
         while minheap and len(res) < 10:
             count, tweetid, followeeid, index = heapq.heappop(minheap)
