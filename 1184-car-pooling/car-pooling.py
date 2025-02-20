@@ -1,16 +1,18 @@
 class Solution:
     def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
-        #BruteForce
-        passchange = [0] * 1001
-
-        for t in trips:
-            curpass, start, end = t
-            passchange[start] += curpass
-            passchange[end] -= curpass
+        trips.sort(key=lambda t: t[1])
         
-        curpass = 0
-        for i in range(1001):
-            curpass += passchange[i]
-            if curpass > capacity:
+        minHeap = []  # pair of [end, numPassengers]
+        curPass = 0
+        
+        for numPass, start, end in trips:
+            while minHeap and minHeap[0][0] <= start:
+                curPass -= heapq.heappop(minHeap)[1]
+            
+            curPass += numPass
+            if curPass > capacity:
                 return False
+            
+            heapq.heappush(minHeap, [end, numPass])
+        
         return True
