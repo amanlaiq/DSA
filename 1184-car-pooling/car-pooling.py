@@ -1,5 +1,6 @@
 class Solution:
     def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
+        #BruteForce
         passchange = [0] * 1001
 
         for t in trips:
@@ -13,4 +14,3 @@ class Solution:
             if curpass > capacity:
                 return False
         return True
-        
