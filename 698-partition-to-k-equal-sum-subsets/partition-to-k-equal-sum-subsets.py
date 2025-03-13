@@ -21,7 +21,7 @@ class Solution:
                 used[j] = False
 
                 if subsetsum == 0:
-                    return False
+                    break
             return False
         return backtrack(0, k, 0)
 
