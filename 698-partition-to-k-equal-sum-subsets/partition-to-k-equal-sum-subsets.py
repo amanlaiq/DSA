@@ -3,8 +3,8 @@ class Solution:
         if sum(nums) % k:
             return False
         nums.sort(reverse=True)
-        target = sum(nums) // k
         used = [False] * len(nums)
+        target = sum(nums) // k
 
         def backtrack(i, k, subsetsum):
             if k == 0:
@@ -15,13 +15,14 @@ class Solution:
             for j in range(i, len(nums)):
                 if used[j] or subsetsum + nums[j] > target:
                     continue
-                used[j] = True
+                used[j] = True 
+
                 if backtrack(j + 1, k, subsetsum + nums[j]):
                     return True
+
                 used[j] = False
 
                 if subsetsum == 0:
                     break
             return False
-        return backtrack(0, k, 0)
-
+        return backtrack(0,k,0)
