@@ -7,10 +7,9 @@ class Solution:
             adj[a].append((b, values[i]))
             adj[b].append((a, 1 / values[i]))
 
-        def dfs(src, target, visited):
+        def dfs( src, target, visited):
             if src not in adj or target not in adj:
-                return -1
-            
+                return -1 
             if src == target:
                 return 1
             visited.add(src)
