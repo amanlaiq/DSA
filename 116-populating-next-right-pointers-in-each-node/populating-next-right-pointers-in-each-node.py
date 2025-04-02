@@ -15,10 +15,9 @@ class Solution:
         q = deque([root])
         while q:
             rightnode = None
-            for _ in range(len(q)):
+            for i in range(len(q)):
                 cur = q.popleft()
                 cur.next, rightnode = rightnode, cur
                 if cur.right:
                     q.extend([cur.right, cur.left])
-
-        return root
+        return root 
