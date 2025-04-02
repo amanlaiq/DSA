@@ -31,17 +31,18 @@ class LRUCache:
             return self.cache[key].val
         return -1
         
-    def put(self, key: int, value: int) -> None:
+    def put(self, key: int, val: int) -> None:
         if key in self.cache:
             self.remove(self.cache[key])
         
-        self.cache[key] = Node(key, value)
+        self.cache[key] = Node(key, val)
         self.insert(self.cache[key])
-        
+
         if len(self.cache) > self.cap:
             lru = self.left.next
             self.remove(lru)
             del self.cache[lru.key]
+
         
 
 
