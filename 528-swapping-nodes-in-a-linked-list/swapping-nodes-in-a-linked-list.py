@@ -8,8 +8,8 @@ class Solution:
         first = last = head
         for i in range(1, k):
             first = first.next
-            
-        null_checker = first 
+        
+        null_checker = first
         while null_checker.next:
             last = last.next
             null_checker = null_checker.next
