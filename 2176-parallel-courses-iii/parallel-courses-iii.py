@@ -7,22 +7,22 @@ class Solution:
         
         memo = [-1] * n
 
-        def calculatetime(course):
+        def cal(course):
             if memo[course] != -1:
                 return memo[course]
+            
             if not graph[course]:
                 memo[course] = time[course]
                 return memo[course]
-            
             max_prereq_time = 0
             for prereq in graph[course]:
-                max_prereq_time = max(max_prereq_time, calculatetime(prereq))
-            
+                max_prereq_time = max(max_prereq_time, cal(prereq))
+
             memo[course] = time[course] + max_prereq_time
             return memo[course]
         
-        min_time = 0 
+        overall_time = 0
         for course in range(n):
-            min_time = max(min_time, calculatetime(course))
-
-        return min_time
+            overall_time = max(overall_time, cal(course))
+        
+        return overall_time
