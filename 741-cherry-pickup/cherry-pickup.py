@@ -1,7 +1,7 @@
 class Solution(object):
     def cherryPickup(self, grid):
         N = len(grid)
-        memo = [[[None] * N for _1 in range(N)] for _2 in range(N)]
+        memo = [[[None] * N for _ in range(N)] for _ in range(N)]
         def dp(r1, c1, c2):
             r2 = r1 + c1 - c2
             if (N == r1 or N == r2 or N == c1 or N == c2 or
