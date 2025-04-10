@@ -15,6 +15,6 @@ class Solution:
             if r - l + 1 >= k:
                 output.append(nums[q[0]])
                 l += 1
-            r += 1
+            # r += 1
         return output
 
