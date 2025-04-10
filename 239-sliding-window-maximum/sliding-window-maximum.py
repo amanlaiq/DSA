@@ -12,8 +12,8 @@ class Solution:
             if q[0] < l:
                 q.popleft()
 
-            if r - l + 1 >= k:
+            if (r - l + 1) >= k:
                 output.append(nums[q[0]])
                 l += 1
-        return output
 
+        return output
