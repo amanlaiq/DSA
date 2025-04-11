@@ -6,12 +6,11 @@
 #         self.right = right
 class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
+        level = 0 
         q = deque()
 
         if root:
             q.append(root)
-        
-        level = 0
 
         while q:
             for i in range(len(q)):
@@ -20,7 +19,5 @@ class Solution:
                     q.append(node.left)
                 if node.right:
                     q.append(node.right)
-
-            level += 1
-        
+            level+= 1
         return level
