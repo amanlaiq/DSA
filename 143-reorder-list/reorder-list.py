@@ -8,9 +8,7 @@ class Solution:
         """
         Do not return anything, modify head in-place instead.
         """
-        #find middle, reverse the second half and merge 
-
-        slow, fast = head, head.next 
+        slow, fast = head, head
 
         while fast and fast.next:
             slow = slow.next
@@ -24,11 +22,11 @@ class Solution:
             second.next = prev
             prev = second
             second = temp
-
+        
         first, second = head, prev
 
         while second:
             t1, t2 = first.next, second.next
-            first.next = second 
+            first.next = second
             second.next = t1
             first, second = t1, t2
