@@ -5,7 +5,7 @@ class Solution:
         negdiag = set()
         res = []
 
-        board = [ ["."] * n for i in range(n)]
+        board = [["."] * n for _ in range(n) ]
 
         def backtrack(r):
             if r == n:
@@ -27,5 +27,6 @@ class Solution:
                 posdiag.remove(r + c)
                 negdiag.remove(r - c)
                 board[r][c] = "."
+
         backtrack(0)
         return res
