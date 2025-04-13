@@ -12,6 +12,7 @@ class Solution:
                     q.append((r, c))
 
         while q and fresh > 0:
+            time += 1
             for i in range(len(q)):
                 row, col = q.popleft()
                 directions = [[1, 0], [-1, 0], [0, 1], [0, -1]]
@@ -26,6 +27,6 @@ class Solution:
                     grid[r][c] = 2
                     q.append((r, c))
                     fresh -= 1
-            time += 1
+
         
         return time if fresh == 0 else -1
