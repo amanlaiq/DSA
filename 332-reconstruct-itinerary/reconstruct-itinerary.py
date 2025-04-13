@@ -1,19 +1,21 @@
 class Solution:
     def findItinerary(self, tickets: List[List[str]]) -> List[str]:
-        
         graph = defaultdict(list)
 
-        for src, dest in tickets:
-            graph[src].append(dest)
-        for airport in graph:
-            graph[airport].sort(reverse=True)
+        for src, dst in tickets:
+            graph[src].append(dst)
 
-        result = []
-        def dfs(airport):
-            while graph[airport]:
-                dfs(graph[airport].pop())
-            result.append(airport)
-            
-        dfs('JFK')
+        for src in graph:
+            graph[src].sort(reverse=True)
 
-        return result[::-1]
+        stack = ['JFK']
+        res = []
+
+        while stack:
+            curr_element = stack[-1]
+            if curr_element in graph and graph[curr_element]:
+                stack.append(graph[curr_element].pop())
+            else:
+                res.append(stack.pop())
+
+        return res[::-1]
