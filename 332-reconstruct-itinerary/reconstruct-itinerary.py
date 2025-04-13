@@ -13,7 +13,7 @@ class Solution:
 
         while stack:
             curr_element = stack[-1]
-            if curr_element in graph and graph[curr_element]:
+            if graph[curr_element]:
                 stack.append(graph[curr_element].pop())
             else:
                 res.append(stack.pop())
