@@ -1,12 +1,11 @@
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        preMap = { i:[] for i in range(numCourses)}
+        premap = { i : [] for i in range(numCourses)}
 
         for crs, pre in prerequisites:
-            preMap[crs].append(pre)
+            premap[crs].append(pre)
 
-        visiting = set()
-        visited = set()
+        visiting, visited = set(), set()
         output = []
 
         def dfs(crs):
@@ -15,7 +14,7 @@ class Solution:
             if crs in visited:
                 return True
             visiting.add(crs)
-            for pre in preMap[crs]:
+            for pre in premap[crs]:
                 if not dfs(pre):
                     return False
             visiting.remove(crs)
@@ -26,5 +25,5 @@ class Solution:
         for c in range(numCourses):
             if not dfs(c):
                 return []
-        
+
         return output
