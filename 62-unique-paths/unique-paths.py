@@ -8,5 +8,3 @@ class Solution:
                 newRow[j] = newRow[j + 1] + dp[j]
             dp = newRow
         return dp[0]
-
-        
