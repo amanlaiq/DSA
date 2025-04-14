@@ -21,10 +21,13 @@ class Solution:
         # Fill the DP table
         for i in range(1, n + 1):
             for j in range(0, S + 1):
-                # Do not choose the i-th element (nums[i-1])
-                dp[i][j] = dp[i - 1][j]
-                # If the current element can be used, add the ways to form the remaining sum.
                 if nums[i - 1] <= j:
-                    dp[i][j] += dp[i - 1][j - nums[i - 1]]
+                    dp[i][j] = dp[i- 1][j] + dp[i - 1][j - nums[i - 1]] 
+                else:
+
+                    dp[i][j] = dp[i - 1][j]
+                # # If the current element can be used, add the ways to form the remaining sum.
+                # if nums[i - 1] <= j:
+                #     dp[i][j] = dp[i][j] + dp[i - 1][j - nums[i - 1]] 
         
         return dp[n][S]
