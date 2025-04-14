@@ -13,15 +13,13 @@ class Solution:
         
         # Build the DP table
         for i in range(1, n + 1):
-            coin_value = coins[i - 1]
+            # coin_value = coins[i - 1]
             for j in range(1, amount + 1):
-                # 1) Exclude the current coin (use solutions from previous coins for sum j)
-                dp[i][j] = dp[i - 1][j]
-                
-                # 2) Include the current coin if j >= coin_value.
-                # Since it's the "unbounded" scenario, we do not move to i-1 but stay on i.
-                if j >= coin_value:
-                    dp[i][j] += dp[i][j - coin_value]
-        
+                if coins[i - 1] <= j:
+                    dp[i][j] = dp[i-1][j] + dp[i][j - coins[i-1]]
+                else:
+                    dp[i][j] = dp[i - 1][j]
+
+
         # The answer is in dp[n][amount]: number of ways to form 'amount' with all n coins.
         return dp[n][amount]
