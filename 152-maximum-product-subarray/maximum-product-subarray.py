@@ -5,7 +5,7 @@ class Solution:
 
         for num in nums:
             tmp = curMax * num
-            curMax = max(num * curMax, num * curMin, num)
+            curMax = max(tmp, num * curMin, num)
             curMin = min(tmp, num * curMin, num)
             res = max(res, curMax)
         return res
