@@ -1,14 +1,28 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        dp = [False] * (len(s) + 1)
+        trie = {}
 
-        dp[len(s)] = True
+        for word in wordDict:
+            node = trie
+            for char in word:
+                if char not in node:
+                    node[char] = {}
+                node = node[char]
+            node["#"] = True
 
-        for i in range(len(s) - 1, -1, -1):
-            for w in wordDict:
-                if i + len(w) <= len(s) and s[i : i + len(w)] == w:
-                    dp[i] = dp[i + len(w)]
-                if dp[i]:
+        n = len(s)
+        dp = [False] * (n + 1)
+        dp[0] = True
+
+        for i in range(n):
+            if not dp[i]:
+                continue
+            node = trie
+            for j in range(i, n):
+                char = s[j]
+                if char not in node:
                     break
-        
-        return dp[0]
+                node = node[char]
+                if "#" in node:
+                    dp[j + 1] = True
+        return dp[n]
