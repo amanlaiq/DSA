@@ -21,9 +21,9 @@ class Solution:
             visited.add(crs)
             output.append(crs)
             return True
-
+        
         for c in range(numCourses):
             if not dfs(c):
                 return []
-
+        
         return output
